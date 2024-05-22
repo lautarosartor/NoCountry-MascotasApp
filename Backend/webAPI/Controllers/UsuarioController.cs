@@ -1,10 +1,28 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System.Web.Http;
+using Microsoft.EntityFrameworkCore;
+using webAPI.Database;
+using webAPI.Models;
+using webAPI.Services;
 
 namespace webAPI.Controllers
 {
-    public class UsuarioController : ApiController
+    [Route("api/[controller]")]
+    [ApiController]
+    public class UsuariosController : ControllerBase
     {
-        //GET, POST, PUT, DELETE
+        private readonly AppDbContext _context;
+
+        public UsuariosController(AppDbContext context)
+        {
+            _context = context;
+        }
+        
+        // GET: api/Usuarios
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Usuario>>> GetUsuarios()
+        {
+            return await _context.Usuarios.ToListAsync();
+        }
     }
+    //GET, POST, PUT, DELETE
 }

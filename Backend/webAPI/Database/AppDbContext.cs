@@ -19,7 +19,7 @@ namespace webAPI.Database
 
         public DbSet<Localidad> Localidades { get; set; }
 
-
+        
         //Valores iniciales para algunas tablas
         protected override void OnModelCreating(ModelBuilder mb)
         {
@@ -135,6 +135,6 @@ namespace webAPI.Database
 
 /*
     Para generar la base de datos, hay q ejecutar los siguientes comandos en consola: 
-    Para la migracion -> dotnet ef migrations add MigracionInicial --project [nombreSolucion] --output-dir Database/Migrations
+    Para la migracion -> dotnet ef migrations add MigracionInicial --project [nombreSolucion] --output-dir Database/Migrationsme ayu
     Para aplicar las migraciones a la BD -> dotnet ef database update --project [nombreSolucion]
 */
