@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -116,26 +117,27 @@ namespace webAPI.Database.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Adopcion",
+                name: "Solicitud",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     IdUsuario = table.Column<int>(type: "INTEGER", nullable: false),
                     IdMascota = table.Column<int>(type: "INTEGER", nullable: false),
+                    Fecha = table.Column<DateTime>(type: "TEXT", nullable: false),
                     Estado = table.Column<string>(type: "TEXT", maxLength: 20, nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Adopcion", x => x.Id);
+                    table.PrimaryKey("PK_Solicitud", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Adopcion_Mascota_IdMascota",
+                        name: "FK_Solicitud_Mascota_IdMascota",
                         column: x => x.IdMascota,
                         principalTable: "Mascota",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Adopcion_Usuario_IdUsuario",
+                        name: "FK_Solicitud_Usuario_IdUsuario",
                         column: x => x.IdUsuario,
                         principalTable: "Usuario",
                         principalColumn: "Id",
@@ -189,27 +191,27 @@ namespace webAPI.Database.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "Adopcion",
-                columns: new[] { "Id", "Estado", "IdMascota", "IdUsuario" },
+                table: "Solicitud",
+                columns: new[] { "Id", "Estado", "Fecha", "IdMascota", "IdUsuario" },
                 values: new object[,]
                 {
-                    { 1, "Solicitado", 1, 1 },
-                    { 2, "Solicitado", 2, 2 }
+                    { 1, "Solicitado", new DateTime(2024, 5, 22, 16, 21, 17, 574, DateTimeKind.Local).AddTicks(2695), 1, 1 },
+                    { 2, "Solicitado", new DateTime(2024, 5, 22, 16, 21, 17, 574, DateTimeKind.Local).AddTicks(2708), 2, 2 }
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Adopcion_IdMascota",
-                table: "Adopcion",
-                column: "IdMascota");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Adopcion_IdUsuario",
-                table: "Adopcion",
-                column: "IdUsuario");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Mascota_IdUsuario",
                 table: "Mascota",
+                column: "IdUsuario");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Solicitud_IdMascota",
+                table: "Solicitud",
+                column: "IdMascota");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Solicitud_IdUsuario",
+                table: "Solicitud",
                 column: "IdUsuario");
 
             migrationBuilder.CreateIndex(
@@ -232,7 +234,7 @@ namespace webAPI.Database.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Adopcion");
+                name: "Solicitud");
 
             migrationBuilder.DropTable(
                 name: "Mascota");

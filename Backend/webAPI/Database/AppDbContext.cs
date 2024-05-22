@@ -13,7 +13,7 @@ namespace webAPI.Database
 
         public DbSet<Rol> Roles { get; set; }
 
-        public DbSet<Adopcion> Adopciones { get; set; }
+        public DbSet<Solicitud> Solicitudes { get; set; }
 
         public DbSet<Provincia> Provincias { get; set; }
 
@@ -115,14 +115,14 @@ namespace webAPI.Database
                 }
             );
 
-            mb.Entity<Adopcion>().HasData(
-                new Adopcion
+            mb.Entity<Solicitud>().HasData(
+                new Solicitud
                 {
                     Id = 1,
                     IdUsuario = 1,
                     IdMascota = 1
                 },
-                new Adopcion
+                new Solicitud
                 {
                     Id = 2,
                     IdUsuario = 2,
