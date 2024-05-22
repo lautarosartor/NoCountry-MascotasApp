@@ -10,15 +10,17 @@ namespace webAPI.Models
         public int Id { get; set; }
 
         [Required]
-        [ForeignKey("Id")]
-        public Usuario Usuario { get; set; } = null!;
+        [ForeignKey("Usuario")]
+        public int IdUsuario { get; set; }
+        public virtual Usuario Usuario { get; set; } = null!;
 
         [Required]
-        [ForeignKey("Id")]
-        public Mascota Mascota { get; set; } = null!;
+        [ForeignKey("Mascota")]
+        public int IdMascota { get; set; }
+        public virtual Mascota Mascota { get; set; } = null!;
 
         [Required]
         [StringLength(20)]
-        public string Estado { get; set; } = string.Empty;
+        public string Estado { get; set; } = "Solicitado";
     }
 }

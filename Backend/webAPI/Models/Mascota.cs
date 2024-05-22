@@ -13,9 +13,11 @@ namespace webAPI.Models
         [StringLength(50)]
         public string Nombre { get; set; } = string.Empty;
 
+        /*
         [Required]
         [StringLength(50)]
         public string Mes_Año { get; set; } = string.Empty; //mes o año
+        */
 
         [Required]
         public int Edad { get; set; }   //numero
@@ -29,14 +31,15 @@ namespace webAPI.Models
         public string Raza { get; set; } = string.Empty;
 
         [Required]
-        [ForeignKey("Id")]
-        public Usuario Usuario { get; set; } = null!;   //solo usuario con rol refugio
+        [ForeignKey("Usuario")]
+        public int IdUsuario { get; set; }  //solo usuario con rol refugio
+        public virtual Usuario Usuario { get; set; } = null!;
 
         [StringLength(255)]
         public string Descripcion { get; set; } = string.Empty;
 
         [StringLength(20)]
-        public string Estado { get; set; } = string.Empty;
+        public string Estado { get; set; } = "Disponible";
 
         //Por defecto la propiedad de borrado logico es falsa
         public bool Borrado { get; set; } = false;

@@ -24,16 +24,27 @@ namespace webAPI.Models
         public string Descripcion { get; set; } = string.Empty;
 
         [Required]
-        [ForeignKey("Id")]
-        public Provincia Provincia { get; set; } = null!;
+        [ForeignKey("Rol")]
+        public int IdRol { get; set; }
+        public virtual Rol Rol { get; set; } = null!;
+
 
         [Required]
-        [ForeignKey("Id")]
-        public Localidad Localidad { get; set; } = null!;
+        [ForeignKey("Provincia")]
+        public int IdProvincia { get; set; }
+        public virtual Provincia Provincia { get; set; } = null!;
+
+
+        [Required]
+        [ForeignKey("Localidad")]
+        public int IdLocalidad { get; set; }
+        public virtual Localidad Localidad { get; set; } = null!;
 
         //Por defecto la propiedad de borrado logico es falsa
         public bool Borrado { get; set; } = false;
 
+
+        //Para cuando agreguemos autenticacion
         /*
         [Required]
         public byte[] PasswordHash { get; set; } = null!;

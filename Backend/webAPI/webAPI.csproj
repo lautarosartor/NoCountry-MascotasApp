@@ -18,7 +18,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Database\Migrations\" />
     <Folder Include="Repositories\" />
     <Folder Include="Services\" />
   </ItemGroup>
