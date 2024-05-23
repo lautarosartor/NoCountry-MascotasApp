@@ -13,13 +13,13 @@ namespace webAPI.Database
 
         public DbSet<Rol> Roles { get; set; }
 
-        public DbSet<Adopcion> Adopciones { get; set; }
+        public DbSet<Solicitud> Solicitudes { get; set; }
 
         public DbSet<Provincia> Provincias { get; set; }
 
         public DbSet<Localidad> Localidades { get; set; }
 
-
+        
         //Valores iniciales para algunas tablas
         protected override void OnModelCreating(ModelBuilder mb)
         {
@@ -115,14 +115,14 @@ namespace webAPI.Database
                 }
             );
 
-            mb.Entity<Adopcion>().HasData(
-                new Adopcion
+            mb.Entity<Solicitud>().HasData(
+                new Solicitud
                 {
                     Id = 1,
                     IdUsuario = 1,
                     IdMascota = 1
                 },
-                new Adopcion
+                new Solicitud
                 {
                     Id = 2,
                     IdUsuario = 2,
@@ -135,6 +135,6 @@ namespace webAPI.Database
 
 /*
     Para generar la base de datos, hay q ejecutar los siguientes comandos en consola: 
-    Para la migracion -> dotnet ef migrations add MigracionInicial --project [nombreSolucion] --output-dir Database/Migrations
+    Para la migracion -> dotnet ef migrations add MigracionInicial --project [nombreSolucion] --output-dir Database/Migrationsme ayu
     Para aplicar las migraciones a la BD -> dotnet ef database update --project [nombreSolucion]
 */
