@@ -1,5 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using webAPI.Database;
+using webAPI.Repositories;
+using webAPI.Repositories.Interfaces;
+using webAPI.Services;
+using webAPI.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,21 +28,25 @@ var config = builder.Configuration;
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlite(config.GetConnectionString("AppDb")));
 
-var app = builder.Build();
+// --- Declaramos los Repositories y Services ---
+builder.Services.AddTransient<IMascotaRepository, MascotaRepository>();
+builder.Services.AddScoped<IMascotaService, MascotaService>();
 
-//--- Usamos el CORS ---
-app.UseCors("NoCountry");
+var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(options => options.EnableTryItOutByDefault());
 }
 
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+
+//--- Usamos el CORS ---
+app.UseCors("NoCountry");
 
 app.MapControllers();
 

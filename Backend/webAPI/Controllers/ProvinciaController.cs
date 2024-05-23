@@ -4,9 +4,6 @@ namespace webAPI.Controllers
 {
     public class ProvinciaController : Controller
     {
-        public IActionResult Index()
-        {
-            return View();
-        }
+        //GET
     }
 }
