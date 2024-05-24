@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System.Web.Http;
+using Microsoft.EntityFrameworkCore;
+using webAPI.Database;
+using webAPI.Models;
 
 namespace webAPI.Controllers
 {
