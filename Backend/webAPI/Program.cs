@@ -31,6 +31,8 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 // --- Declaramos los Repositories y Services ---
 builder.Services.AddTransient<IMascotaRepository, MascotaRepository>();
 builder.Services.AddScoped<IMascotaService, MascotaService>();
+builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
+builder.Services.AddScoped<IUsuarioService, UsuarioService>();
 
 var app = builder.Build();
 
