@@ -8,7 +8,7 @@ namespace webAPI.Models
     {
         [Key]
         public int Id { get; set; }
-    
+
         [Required]
         [ForeignKey("Usuario")]
         public int IdUsuario { get; set; }
@@ -21,9 +21,9 @@ namespace webAPI.Models
     
         [Required]
         public System.DateTime Fecha { get; set; } = DateTime.Now;  //Automaticamente la fecha y hora del momento
-    
+
         [Required]
         [StringLength(20)]
-        public string Estado { get; set; } = "Solicitado";
+        public string Estado { get; set; } = "Pendiente";   //Automaticamente cuando solicitamos, el estado sera pendiente
     }
 }

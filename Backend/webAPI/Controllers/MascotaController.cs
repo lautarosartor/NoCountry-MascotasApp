@@ -1,8 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using webAPI.Database;
 using webAPI.DTOs;
-using webAPI.Models;
 using webAPI.Services.Interfaces;
 
 namespace webAPI.Controllers
@@ -18,7 +15,7 @@ namespace webAPI.Controllers
             {
                 var mascotas = await mascotaService.LeerTodoAsync();
 
-                if (mascotas == null)
+                if (!mascotas.Any())
                 {
                     return NotFound("¡Aún no hay registros!");
                 }
@@ -37,17 +34,12 @@ namespace webAPI.Controllers
             try
             {
                 var mascota = await mascotaService.LeerUnoAsync(idMascota);
-                
-                if (mascota == null)
-                {
-                    return NotFound("¡Registro no encontrado!");
-                }
 
-                return mascota;
+                return Ok(mascota);
             }
             catch (Exception ex)
             {
-                return BadRequest($"Ocurrió un error al procesar la solicitud: {ex.Message}");
+                return BadRequest($"Ocurrió un error al procesar la solicitud: {ex.Message}");  //Aca se muestra el mensaje
             }
         }
 
@@ -58,7 +50,7 @@ namespace webAPI.Controllers
             {
                 await mascotaService.CrearAsync(mascotaDTO);
 
-                return Ok();
+                return Ok("Registro creado con éxito.");
             }
             catch (Exception ex)
             {
@@ -73,7 +65,7 @@ namespace webAPI.Controllers
             {
                 await mascotaService.ActualizarAsync(idMascota, mascotaDTO);
 
-                return Ok();
+                return Ok("Registro modificado con éxito.");
             }
             catch (Exception ex)
             {
@@ -88,7 +80,7 @@ namespace webAPI.Controllers
             {
                 await mascotaService.EliminarAsync(idMascota);
 
-                return Ok();
+                return Ok("Registro eliminado con éxito.");
             }
             catch (Exception ex)
             {

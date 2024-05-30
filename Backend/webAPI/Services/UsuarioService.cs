@@ -1,42 +1,29 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using webAPI.DTOs;
-using webAPI.Models;
-using webAPI.Repositories;
+﻿using webAPI.DTOs;
+using webAPI.Repositories.Interfaces;
+using webAPI.Services.Interfaces;
 
 namespace webAPI.Services
 {
-    public class UsuarioService : IUsuarioService
+    public class UsuarioService(IUsuarioRepository usuarioRepository) : IUsuarioService
     {
-        private readonly IUsuarioRepository _usuarioRepository;
-
-        public UsuarioService(IUsuarioRepository usuarioRepository)
+        public async Task<IEnumerable<UsuarioDTO>> LeerTodoAsync()
         {
-            _usuarioRepository = usuarioRepository;
+            return await usuarioRepository.LeerTodoAsync();
         }
 
-        public async Task<IEnumerable<UsuarioDTO>> GetUsuariosAsync()
+        public async Task<UsuarioDTO> LeerUnoAsync(int idUsuario)
         {
-            return await _usuarioRepository.GetUsuariosAsync();
-        }
-        public async Task<UsuarioDTO> GetUsuarioByIdAsync(int id)
-        {
-            return await _usuarioRepository.GetUsuarioByIdAsync(id);
+            return await usuarioRepository.LeerUnoAsync(idUsuario);
         }
 
-        public async Task<Usuario> AddUsuarioAsync(Usuario usuario)
+        public async Task ActualizarAsync(int idUsuario, ModificarUsuarioDTO usuarioDTO)
         {
-            return await _usuarioRepository.AddUsuarioAsync(usuario);
+            await usuarioRepository.ActualizarAsync(idUsuario, usuarioDTO);
         }
 
-        public async Task<Usuario> UpdateUsuarioAsync(Usuario usuario)
+        public async Task EliminarAsync(int idUsuario)
         {
-            return await _usuarioRepository.UpdateUsuarioAsync(usuario);
-        }
-
-        public async Task<bool> DeleteUsuarioAsync(int id)
-        {
-            return await _usuarioRepository.DeleteUsuarioAsync(id);
+            await usuarioRepository.EliminarAsync(idUsuario);
         }
     }
 }
