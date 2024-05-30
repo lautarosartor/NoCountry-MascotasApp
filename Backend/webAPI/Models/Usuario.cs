@@ -20,8 +20,20 @@ namespace webAPI.Models
         [EmailAddress]
         public string Email { get; set; } = string.Empty;
 
+
+        [Required]
+        public byte[] PasswordHash { get; set; } = null!;
+
+        [Required]
+        public byte[] PasswordSalt { get; set; } = null!;
+
+
+        [StringLength(100)]
+        public string Direccion { get; set; } = string.Empty;
+
         [StringLength(255)]
         public string Descripcion { get; set; } = string.Empty;
+
 
         [Required]
         [ForeignKey("Rol")]
@@ -42,15 +54,5 @@ namespace webAPI.Models
 
         //Por defecto la propiedad de borrado logico es falsa
         public bool Borrado { get; set; } = false;
-
-
-        //Para cuando agreguemos autenticacion
-        /*
-        [Required]
-        public byte[] PasswordHash { get; set; } = null!;
-
-        [Required]
-        public byte[] PasswordSalt { get; set; } = null!;
-        */
     }
 }

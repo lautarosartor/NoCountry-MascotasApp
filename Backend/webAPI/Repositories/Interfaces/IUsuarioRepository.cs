@@ -1,19 +1,15 @@
-﻿
-using webAPI.DTOs;
-using webAPI.Models;
+﻿using webAPI.DTOs;
 
-namespace webAPI.Repositories
+namespace webAPI.Repositories.Interfaces
 {
     public interface IUsuarioRepository
     {
-        Task<IEnumerable<UsuarioDTO>> GetUsuariosAsync();
-        Task<UsuarioDTO> GetUsuarioByIdAsync(int id);
-        Task<Usuario> AddUsuarioAsync(Usuario usuario);
-        Task<Usuario> UpdateUsuarioAsync(Usuario usuario);
-        Task<bool> DeleteUsuarioAsync(int id);
+        Task<IEnumerable<UsuarioDTO>> LeerTodoAsync();
 
+        Task<UsuarioDTO> LeerUnoAsync(int idUsuario);
+
+        Task ActualizarAsync (int idUsuario, ModificarUsuarioDTO usuarioDTO);
+
+        Task EliminarAsync (int idUsuario);
     }
 }
-
-
-

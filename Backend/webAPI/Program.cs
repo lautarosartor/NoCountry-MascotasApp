@@ -1,4 +1,7 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 using webAPI.Database;
 using webAPI.Repositories;
 using webAPI.Repositories.Interfaces;
@@ -31,10 +34,30 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 // --- Declaramos los Repositories y Services ---
 builder.Services.AddTransient<IMascotaRepository, MascotaRepository>();
 builder.Services.AddScoped<IMascotaService, MascotaService>();
-builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
-builder.Services.AddScoped<IUsuarioService, UsuarioService>();
+builder.Services.AddTransient<ISolicitudRepository, SolicitudRepository>();
+builder.Services.AddScoped<ISolicitudService, SolicitudService>();
+
+// --- Agregar los tokens de JWT ---
+builder.Services.AddAuthorization();
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuerSigningKey = true,    // Significa q se tiene q firmar cuando se tiene q crear
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration.GetSection("Jwt:Key").Value)),
+            ValidateIssuer = false,
+            ValidateAudience = false
+        };
+    });
 
 var app = builder.Build();
+
+app.UseHttpsRedirection();
+
+// --- Usamos la autenticacion y autorizacion
+app.UseAuthentication();
+app.UseAuthorization();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -42,10 +65,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI(options => options.EnableTryItOutByDefault());
 }
-
-app.UseHttpsRedirection();
-
-app.UseAuthorization();
 
 //--- Usamos el CORS ---
 app.UseCors("NoCountry");

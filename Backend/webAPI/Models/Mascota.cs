@@ -13,14 +13,13 @@ namespace webAPI.Models
         [StringLength(50)]
         public string Nombre { get; set; } = string.Empty;
 
-        /*
         [Required]
-        [StringLength(50)]
-        public string Mes_Año { get; set; } = string.Empty; //mes o año
-        */
+        [Range(0, 11)]
+        public int Meses { get; set; }
 
         [Required]
-        public int Edad { get; set; }   //numero
+        [Range(0, 20)]
+        public int Años { get; set; }
 
         [Required]
         [StringLength(50)]
@@ -30,6 +29,9 @@ namespace webAPI.Models
         [StringLength(50)]
         public string Raza { get; set; } = string.Empty;
 
+        [StringLength(500)]
+        public string UrlImagen { get; set; } = string.Empty;
+
         [Required]
         [ForeignKey("Usuario")]
         public int IdUsuario { get; set; }  //solo usuario con rol refugio
@@ -38,6 +40,7 @@ namespace webAPI.Models
         [StringLength(255)]
         public string Descripcion { get; set; } = string.Empty;
 
+        //Por defecto ni bien se crea la publicacion el estado de la mascota es disponible
         [StringLength(20)]
         public string Estado { get; set; } = "Disponible";
 
