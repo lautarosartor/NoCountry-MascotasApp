@@ -11,6 +11,8 @@ namespace webAPI.Repositories
         public async Task<IEnumerable<GetSolicitudDTO>> LeerTodoAsync()
         {
             var solicitudes = await context.Solicitudes
+                .Include(s => s.Usuario)
+                .Include(s => s.Mascota)
                 .Select(s => new GetSolicitudDTO
                 {
                     Id = s.Id,
@@ -20,6 +22,31 @@ namespace webAPI.Repositories
                     Estado = s.Estado
                 })
                 .ToListAsync();
+
+            return solicitudes;
+        }
+
+        public async Task<IEnumerable<GetSolicitudDTO>> SolicitudesUsuarioAsync(string email)
+        {
+            var solicitudes = await context.Solicitudes
+                .Where(u => u.Usuario.Email == email)
+                .Include(s => s.Usuario)
+                .Include(s => s.Mascota)
+                .Select(s => new GetSolicitudDTO
+                {
+                    Id = s.Id,
+                    NombreMascota = s.Mascota.Nombre,
+                    Fecha = s.Fecha,
+                    Estado = s.Estado
+                })
+                .ToListAsync();
+            
+            var usuario = context.Usuarios.FirstOrDefault(u => u.Email == email);
+
+            if (usuario is null)
+            {
+                throw new Exception("*Usuario no encontrado*");
+            }
 
             return solicitudes;
         }

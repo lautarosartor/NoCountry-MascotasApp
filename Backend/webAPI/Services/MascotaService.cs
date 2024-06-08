@@ -14,6 +14,11 @@ namespace webAPI.Services
             return await mascotaRepository.LeerTodoAsync();
         }
 
+        public async Task<IEnumerable<GetMascotaDTO>> PublicacionesMascota(string email)
+        {
+            return await mascotaRepository.PublicacionesMascota(email);
+        }
+
         public async Task<GetMascotaDTO> LeerUnoAsync(int idMascota)
         {
             return await mascotaRepository.LeerUnoAsync(idMascota);

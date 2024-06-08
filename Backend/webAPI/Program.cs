@@ -36,6 +36,8 @@ builder.Services.AddTransient<IMascotaRepository, MascotaRepository>();
 builder.Services.AddScoped<IMascotaService, MascotaService>();
 builder.Services.AddTransient<ISolicitudRepository, SolicitudRepository>();
 builder.Services.AddScoped<ISolicitudService, SolicitudService>();
+builder.Services.AddTransient<IUsuarioRepository, UsuarioRepository>();
+builder.Services.AddScoped<IUsuarioService, UsuarioService>();
 
 // --- Agregar los tokens de JWT ---
 builder.Services.AddAuthorization();

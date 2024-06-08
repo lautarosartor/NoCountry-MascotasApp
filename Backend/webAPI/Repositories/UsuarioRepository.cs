@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using webAPI.Controllers;
 using webAPI.Database;
 using webAPI.DTOs;
 using webAPI.Models;
@@ -19,7 +20,9 @@ namespace webAPI.Repositories
                     Nombre = u.Nombre,
                     Apellido = u.Apellido,
                     Email = u.Email,
-                    Rol = u.Rol.Nombre
+                    Rol = u.Rol.Nombre,
+                    Provincia = u.Provincia.Nombre,
+                    Localidad = u.Localidad.Nombre,
                 })
                 .ToListAsync();
 
@@ -53,31 +56,6 @@ namespace webAPI.Repositories
             }
 
             return usuario;
-        }
-
-        // Capaz esto se hace en el AccountController por el tema de la password
-        public async Task ActualizarAsync(int idUsuario, ModificarUsuarioDTO usuarioDTO)
-        {
-            var usuario = await context.Usuarios
-                .Where(u => !u.Borrado && u.Id == idUsuario)
-                .FirstOrDefaultAsync();
-
-            if (usuario is null)
-            {
-                throw new Exception("¡Usuario no encontrado!");
-            }
-
-            // Asignamos los nuevos valores a los campos que se pueden modificar
-            usuario.Nombre = usuarioDTO.Nombre;
-            usuario.Apellido = usuarioDTO.Apellido;
-            usuario.Direccion = usuarioDTO.Direccion;
-            usuario.Descripcion = usuarioDTO.Descripcion;
-            usuario.IdProvincia = usuarioDTO.IdProvincia;
-            usuario.IdLocalidad = usuarioDTO.IdLocalidad;
-            // Ver como actualizar la password
-
-            // Aplicamos los cambios
-            await context.SaveChangesAsync();
         }
 
         public async Task EliminarAsync(int idUsuario)

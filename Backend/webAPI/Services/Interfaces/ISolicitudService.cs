@@ -7,6 +7,8 @@ namespace webAPI.Services.Interfaces
     {
         Task<IEnumerable<GetSolicitudDTO>> LeerTodoAsync();
 
+        Task<IEnumerable<GetSolicitudDTO>> SolicitudesUsuarioAsync(string email);
+
         Task<GetSolicitudDTO> LeerUnoAsync(int idSolicitud);
 
         Task CrearAsync(SolicitudDTO solicitud);

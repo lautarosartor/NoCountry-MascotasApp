@@ -8,6 +8,8 @@ namespace webAPI.Repositories.Interfaces
     {
         Task<IEnumerable<GetMascotaDTO>> LeerTodoAsync();
 
+        Task<IEnumerable<GetMascotaDTO>> PublicacionesMascota(string email);
+
         Task<GetMascotaDTO> LeerUnoAsync(int idMascota);
 
         Task CrearAsync(MascotaDTO mascotaDTO);

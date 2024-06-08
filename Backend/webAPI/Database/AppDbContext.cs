@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Security.Cryptography;
 using webAPI.Models;
 
 namespace webAPI.Database
@@ -59,6 +60,83 @@ namespace webAPI.Database
                 new Localidad { Id = 1, Nombre = "Avellaneda" },
                 new Localidad { Id = 2, Nombre = "Río Cuarto" }
             );
+
+            mb.Entity<Mascota>().HasData(
+                new Mascota
+                {
+                    Id = 1,
+                    Nombre = "Michi",
+                    Meses = 3,
+                    Años = 1,
+                    Especie = "Gato",
+                    Raza = "Gris",
+                    UrlImagen = "https://w.wallhaven.cc/full/p9/wallhaven-p9gr59.jpg",
+                    IdUsuario = 1,
+                    Descripcion = "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facere eum animi saepe odio accusantium.",
+                },
+                new Mascota
+                {
+                    Id = 2,
+                    Nombre = "Michifus",
+                    Meses = 1,
+                    Años = 2,
+                    Especie = "Gato",
+                    Raza = "Marmolado",
+                    UrlImagen = "https://w.wallhaven.cc/full/lq/wallhaven-lqm2zl.jpg",
+                    IdUsuario = 1,
+                    Descripcion = "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facere eum animi saepe odio accusantium.",
+                },
+                new Mascota
+                {
+                    Id = 3,
+                    Nombre = "Firu",
+                    Meses = 1,
+                    Años = 1,
+                    Especie = "Perro",
+                    Raza = "Aleman",
+                    UrlImagen = "https://w.wallhaven.cc/full/4x/wallhaven-4xjqel.jpg",
+                    IdUsuario = 1,
+                    Descripcion = "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facere eum animi saepe odio accusantium.",
+                },
+                new Mascota
+                {
+                    Id = 4,
+                    Nombre = "Firulais",
+                    Meses = 2,
+                    Años = 2,
+                    Especie = "Perro",
+                    Raza = "Callejero",
+                    UrlImagen = "https://w.wallhaven.cc/full/p9/wallhaven-p9gr59.jpg",
+                    IdUsuario = 1,
+                    Descripcion = "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facere eum animi saepe odio accusantium.",
+                }
+            );
+
+            byte[] passwordHash, passwordSalt;
+            CreatePasswordHash("refugio", out passwordHash, out passwordSalt);
+
+            mb.Entity<Usuario>().HasData(
+                new Usuario {
+                    Id = 1,
+                    Nombre = "Refugio",
+                    Apellido = "SRL",
+                    Email = "refugio@g.com",
+                    PasswordHash = passwordHash,
+                    PasswordSalt = passwordSalt,
+                    IdRol = 2,
+                    IdProvincia = 21,
+                    IdLocalidad = 1
+                }
+            );
+        }
+
+        public static void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
+        {
+            using (var hmac = new HMACSHA512())
+            {
+                passwordSalt = hmac.Key;
+                passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
+            }
         }
     }
 }

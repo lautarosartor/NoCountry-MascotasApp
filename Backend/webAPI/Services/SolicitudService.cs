@@ -12,6 +12,11 @@ namespace webAPI.Services
             return await solicitudRepository.LeerTodoAsync();
         }
 
+        public async Task<IEnumerable<GetSolicitudDTO>> SolicitudesUsuarioAsync(string email)
+        {
+            return await solicitudRepository.SolicitudesUsuarioAsync(email);
+        }
+
         public async Task<GetSolicitudDTO> LeerUnoAsync(int idSolicitud)
         {
             return await solicitudRepository.LeerUnoAsync(idSolicitud);

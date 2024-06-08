@@ -29,7 +29,8 @@ namespace webAPI.Models
         [StringLength(50)]
         public string Raza { get; set; } = string.Empty;
 
-        [StringLength(500)]
+        [Required]
+        [StringLength(1000)]
         public string UrlImagen { get; set; } = string.Empty;
 
         [Required]

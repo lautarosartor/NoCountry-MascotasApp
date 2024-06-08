@@ -18,7 +18,27 @@ namespace webAPI.Controllers
 
                 if (!solicitudes.Any())
                 {
-                    return NotFound("¡Aún no hay registros!");
+                    throw new Exception("¡Aún no hay solicitudes!");
+                }
+
+                return Ok(solicitudes);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Ocurrió un error al procesar la solicitud: {ex.Message}");
+            }
+        }
+
+        [HttpGet("usuario/{email}")]
+        public async Task<ActionResult<IEnumerable<GetSolicitudDTO>>> SolicitudesUsuario(string email)
+        {
+            try
+            {
+                var solicitudes = await solicitudService.SolicitudesUsuarioAsync(email);
+
+                if (!solicitudes.Any())
+                {
+                    throw new Exception("¡Aún no realizó ninguna solicitud!");
                 }
 
                 return Ok(solicitudes);
@@ -59,7 +79,7 @@ namespace webAPI.Controllers
             }
         }
 
-        [HttpPut("{idSolicitud}")]
+        [HttpDelete("{idSolicitud}")]
         public async Task<ActionResult> ActualizarEstado(int idSolicitud, EstadoSolicitudDTO estadoSolicitudDTO)
         {
             try

@@ -15,6 +15,11 @@ namespace webAPI.Controllers
             {
                 var provincias = context.Provincias.ToList();
 
+                if (!provincias.Any())
+                {
+                    throw new Exception("Error al cargar provincias.");
+                }
+
                 return Ok(provincias);
             }
             catch (Exception ex)
@@ -32,7 +37,7 @@ namespace webAPI.Controllers
 
                 if (provincia is null)
                 {
-                    throw new Exception("¡Registro no encontrado!");
+                    throw new Exception("¡Provincia no encontrada!");
                 }
 
                 return Ok(provincia);

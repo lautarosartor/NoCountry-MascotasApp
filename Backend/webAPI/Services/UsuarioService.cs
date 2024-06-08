@@ -16,11 +16,6 @@ namespace webAPI.Services
             return await usuarioRepository.LeerUnoAsync(idUsuario);
         }
 
-        public async Task ActualizarAsync(int idUsuario, ModificarUsuarioDTO usuarioDTO)
-        {
-            await usuarioRepository.ActualizarAsync(idUsuario, usuarioDTO);
-        }
-
         public async Task EliminarAsync(int idUsuario)
         {
             await usuarioRepository.EliminarAsync(idUsuario);

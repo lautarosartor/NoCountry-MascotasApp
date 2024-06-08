@@ -14,7 +14,12 @@ namespace webAPI.Controllers
 			try
 			{
 				var localidades = context.Localidades.ToList();
-				
+
+                if (!localidades.Any())
+                {
+                    throw new Exception("Error al cargar localidades.");
+                }
+
                 return Ok(localidades);
 			}
 			catch (Exception ex)

@@ -68,7 +68,15 @@ namespace webAPI.Controllers
                 context.Usuarios.Add(usuario);
                 context.SaveChanges();
 
-                return Ok("¡Usuario registrado con exito!");
+                var autoLogin = new LoginUsuarioDTO
+                {
+                    Email = registroDTO.Email,
+                    Password = registroDTO.Password
+                };
+
+                return Login(autoLogin);
+
+                //return Ok("¡Usuario registrado con exito!");
             }
             catch (Exception ex)
             {
@@ -91,7 +99,7 @@ namespace webAPI.Controllers
                 // Verificamos si el usuario existe
                 if (usuario is null)
                 {
-                    throw new Exception("*Direccion de email incorrecta");
+                    throw new Exception("*Direccion de email incorrecta*");
                 }
 
                 // Verificamos si la contraseña es correcta
@@ -107,6 +115,44 @@ namespace webAPI.Controllers
                 };
 
                 return Ok(token);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Ocurrió un error al procesar la solicitud: {ex.Message}");
+            }
+        }
+
+        [HttpPut("update/{idUsuario}")]
+        public ActionResult ActualizarAsync(int idUsuario, ModificarUsuarioDTO usuarioDTO)
+        {
+            try
+            {
+                var usuario = context.Usuarios
+                .Where(u => !u.Borrado && u.Id == idUsuario)
+                .FirstOrDefault();
+
+                if (usuario is null)
+                {
+                    throw new Exception("¡Usuario no encontrado!");
+                }
+
+                // Hash de password
+                CreatePasswordHash(usuarioDTO.Password, out byte[] passwordHash, out byte[] passwordSalt);
+
+                // Asignamos los nuevos valores a los campos que se pueden modificar
+                usuario.Nombre = usuarioDTO.Nombre;
+                usuario.Apellido = usuarioDTO.Apellido;
+                usuario.Direccion = usuarioDTO.Direccion;
+                usuario.Descripcion = usuarioDTO.Descripcion;
+                usuario.IdProvincia = usuarioDTO.IdProvincia;
+                usuario.IdLocalidad = usuarioDTO.IdLocalidad;
+                usuario.PasswordHash = passwordHash;
+                usuario.PasswordSalt = passwordSalt;
+
+                // Aplicamos los cambios
+                context.SaveChanges();
+
+                return Ok("¡Usuario modificado con exito!");
             }
             catch (Exception ex)
             {
@@ -139,7 +185,8 @@ namespace webAPI.Controllers
         {
             var claims = new List<Claim>
             {
-                new Claim("name", usuario.Email)
+                new Claim("name", usuario.Nombre + " " + usuario.Apellido),
+                new Claim("email", usuario.Email)
             };
 
             string rol = usuario.Rol.Nombre;

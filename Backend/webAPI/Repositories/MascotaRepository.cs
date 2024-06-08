@@ -20,14 +20,46 @@ namespace webAPI.Repositories
                     Id = m.Id,
                     Nombre = m.Nombre,
                     Especie = m.Especie,
-                    NombreUsuario = m.Usuario.Nombre,
-                    Meses = m.Meses,
-                    Años = m.Años,
-                    Raza = m.Raza,
+                    NombreUsuario = m.Usuario.Nombre + " " + m.Usuario.Apellido + " - " + m.Usuario.Email,
+                    //Meses = m.Meses,
+                    //Años = m.Años,
+                    //Raza = m.Raza,
+                    UrlImagen = m.UrlImagen,
                     Descripcion = m.Descripcion,
                     Estado = m.Estado
                 })
                 .ToListAsync();
+
+            return mascotas;
+        }
+
+        public async Task<IEnumerable<GetMascotaDTO>> PublicacionesMascota(string email)
+        {
+            var mascotas = await context.Mascotas
+                .Where(m => !m.Borrado && m.Usuario.Email == email)
+                .Include(m => m.Usuario)
+                .Select(m => new GetMascotaDTO
+                {
+                    // Si utilizaramos la extension Mapper, a esto lo hace automaticamente
+                    Id = m.Id,
+                    Nombre = m.Nombre,
+                    Especie = m.Especie,
+                    //NombreUsuario = m.Usuario.Nombre + " " + m.Usuario.Apellido + " - " + m.Usuario.Email,
+                    Meses = m.Meses,
+                    Años = m.Años,
+                    //Raza = m.Raza,
+                    //UrlImagen = m.UrlImagen,
+                    //Descripcion = m.Descripcion,
+                    Estado = m.Estado
+                })
+                .ToListAsync();
+
+                var usuario = context.Usuarios.FirstOrDefault(u => u.Email == email);
+
+                if (usuario is null)
+                {
+                    throw new Exception("*Usuario no encontrado*");
+                }
 
             return mascotas;
         }
@@ -42,10 +74,11 @@ namespace webAPI.Repositories
                     Id = m.Id,
                     Nombre = m.Nombre,
                     Especie = m.Especie,
-                    NombreUsuario = m.Usuario.Nombre,
+                    NombreUsuario = m.Usuario.Nombre + " " + m.Usuario.Apellido + " - " + m.Usuario.Email,
                     Meses = m.Meses,
                     Años = m.Años,
                     Raza = m.Raza,
+                    UrlImagen = m.UrlImagen,
                     Descripcion = m.Descripcion,
                     Estado = m.Estado
                 })

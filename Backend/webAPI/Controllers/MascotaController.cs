@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using webAPI.Database;
 using webAPI.DTOs;
 using webAPI.Services.Interfaces;
 
@@ -17,7 +19,27 @@ namespace webAPI.Controllers
 
                 if (!mascotas.Any())
                 {
-                    return NotFound("¡Aún no hay registros!");
+                    throw new Exception("¡Aún no hay registros!");
+                }
+
+                return Ok(mascotas);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Ocurrió un error al procesar la solicitud: {ex.Message}");
+            }
+        }
+
+        [HttpGet("refugio/{email}")]
+        public async Task<ActionResult<IEnumerable<GetMascotaDTO>>> PublicacionesMascota(string email)
+        {
+            try
+            {
+                var mascotas = await mascotaService.PublicacionesMascota(email);
+
+                if (!mascotas.Any())
+                {
+                    throw new Exception("¡Aún no realizó publicaciones!");
                 }
 
                 return Ok(mascotas);

@@ -8,8 +8,6 @@ namespace webAPI.Services.Interfaces
 
         Task<UsuarioDTO> LeerUnoAsync(int idUsuario);
 
-        Task ActualizarAsync(int idUsuario, ModificarUsuarioDTO usuarioDTO);
-
         Task EliminarAsync(int idUsuario);
     }
 }
