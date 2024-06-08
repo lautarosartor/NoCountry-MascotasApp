@@ -1,0 +1,97 @@
+#register-section, #login-section {
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  height: calc(100vh - 4rem);
+}
+
+#register-section {
+  background-image: url('../../../public/assets/img/register.jpg');
+}
+
+#login-section {
+  background-image: url('../../../public/assets/img/login.jpg');
+}
+
+.form {
+  max-width: 350px;
+  background-color: #00000050;
+  box-shadow: 0 0 10px #000;
+  backdrop-filter: blur(1px);
+}
+
+.title {
+  font-size: 28px;
+  font-weight: 600;
+  color: #0dcaf0;
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding-left: 30px;
+}
+
+.title::before,.title::after {
+  position: absolute;
+  content: "";
+  height: 16px;
+  width: 16px;
+  border-radius: 50%;
+  left: 0px;
+  background-color: #0dcaf0;
+}
+
+.title::before {
+  width: 18px;
+  height: 18px;
+  background-color: #0dcaf0;
+}
+
+.title::after {
+  width: 18px;
+  height: 18px;
+  animation: pulse 1s linear infinite;
+}
+
+.form label {
+  position: relative;
+}
+
+.form label .input {
+  width: 100%;
+  padding: 15px 15px 20px 10px;
+  outline: 0;
+  border: 1px solid rgba(105, 105, 105, 0.397);
+  border-radius: 10px;
+}
+
+.form label .input + span {
+  position: absolute;
+  left: 10px;
+  top: 20px;
+  color: grey;
+  font-size: 0.8em;
+  cursor: text;
+  transition: 0.3s ease;
+}
+
+.form label .input:focus + span,.form label .input:valid + span {
+  top: 35px;
+  font-size: 0.7em;
+  font-weight: 600;
+}
+
+.form label .input:valid + span {
+  color: green;
+}
+
+@keyframes pulse {
+  from {
+    transform: scale(0.9);
+    opacity: 1;
+  }
+
+  to {
+    transform: scale(1.8);
+    opacity: 0;
+  }
+}

@@ -1,0 +1,29 @@
+.portada {
+  height: 600px;
+  position: relative;
+  padding: 2rem 0;
+  background: linear-gradient(to bottom, #1769aa, #A9927D);
+  color: #fff;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+.portada .container {
+  background-image: url("https://nutricione.es/img/cms/Home%20Nutricione/Hom/Categoria%20PIENSOS/Nutricione-categoria-piensos-perro-gato.png");
+  position: absolute;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: left bottom;
+  z-index: 0;
+}
+
+.portada-content {
+  position: relative;
+  z-index: 1;
+}
+
+.titulo {
+  line-height: 5rem;
+  font-size: 5rem;
+  font-weight: bolder;
+  text-shadow: 5px 5px 10px #000;
+}
