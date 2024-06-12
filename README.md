@@ -55,6 +55,26 @@
 
 1. Clona el repositorio:
    ```sh
-   git clone https://github.com/tu-usuario/plataforma-adopcion-mascotas.git
-  sh```
+   git clone 
+
+2. Navega al directorio del proyecto:
+   ```sh
+   cd NoCountry-MascotasApp/
+
+3. Instala las dependencias del backend:
+   ```sh
+   cd Backend/
+
+4. Inicia el servidor backend:
+   ```sh
+   npm start
+
+5. Instala las dependencias del frontend:
+   ```sh
+   cd ../Frontend/
+   npm install
+
+6. Inicia el servidor frontend:
+   ```sh
+   npm start
 
