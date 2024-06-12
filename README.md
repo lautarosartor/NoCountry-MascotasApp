@@ -80,5 +80,5 @@
 
 ## Contribuidor
 * **Sartor Lautaro *(Full-Stack)***
-  *Backend:* Desarrollo de la web API utilizando C#.NET y Entity Framework, autenticación y autorizacion de usuario con JWT Token, conexion a base de datos SQLite, gestion de la BBDD en HeidiSQL, testeo de la API en Swagger UI.
-  *Frontend:* Desarrollo de la interfaz e interactividad de usuario en React.js, conexion con el backend, consumo de la API, consumo de API de localidades de Argentina, manejo de estado reactivo del usuario, rutas restringidas.
+  - *Backend:* Desarrollo de la web API utilizando C#.NET y Entity Framework, autenticación y autorizacion de usuario con JWT Token, conexion a base de datos SQLite, gestion de la BBDD en HeidiSQL, testeo de la API en Swagger UI.
+  - *Frontend:* Desarrollo de la interfaz e interactividad de usuario en React.js, conexion con el backend, consumo de la API, consumo de API de localidades de Argentina, manejo de estado reactivo del usuario, rutas restringidas.
