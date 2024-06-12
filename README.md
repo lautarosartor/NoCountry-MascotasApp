@@ -80,7 +80,7 @@
 
 ## Autor
 
-* **Sartor Lautaro** *(Full-Stack)*
+* ### Sartor Lautaro *(Full-Stack)*
   
   **Backend:**
   - Desarrollo de la web API utilizando C#.NET y Entity Framework.
