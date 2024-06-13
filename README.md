@@ -48,9 +48,9 @@
   <img src="https://skillicons.dev/icons?i=sqlite&perline=5" />
 
 - **Herramientas de desarrollo:** </br>
-  <img src="https://skillicons.dev/icons?i=git,github&perline=5" />
   <img src="https://upload.wikimedia.org/wikipedia/commons/3/32/HeidiSQL_logo_image.png" width="50" />
   <img src="https://static-00.iconduck.com/assets.00/swagger-icon-512x512-halz44im.png" width="50" />
+  <img src="https://skillicons.dev/icons?i=git,github,docker&perline=5" />
 
 ## Instalación y Configuración
 
@@ -58,24 +58,28 @@
    ```sh
    git clone https://github.com/lautarosartor/NoCountry-MascotasApp.git
 
-2. Navega al directorio del proyecto:
+2. Navega al directorio del backend:
    ```sh
-   cd NoCountry-MascotasApp/
+   cd NoCountry-MascotasApp/Backend/webAPI/
 
 3. Instala las dependencias del backend:
    ```sh
-   cd Backend/
+   dotnet restore
 
 4. Inicia el servidor backend:
    ```sh
-   npm start
+   dotnet run
 
-5. Instala las dependencias del frontend:
+5. Navega al directorio del frontend:
    ```sh
-   cd ../Frontend/
+   cd ../..
+   cd Frontend/miAppFront
+
+6. Instala las dependencias del frontend:
+   ```sh
    npm install
 
-6. Inicia el servidor frontend:
+7. Inicia el servidor frontend:
    ```sh
    npm start
 
