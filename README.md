@@ -1,9 +1,9 @@
 <div align="center">
-  <img src="https://play-lh.googleusercontent.com/vVZZ9-k369c1bQO8QAL3PBvmg0XBKFHwvckV9-jbtNyp6PtmAO_U-T4J67SJHT-gdaA-=w240-h480-rw" width="100"/>
-  <h1>Animal Heaven</h1>
+  <h1>ANIMAL HEAVEN: Plataforma de Adopción de Mascotas</hh1>
+  <img src="https://images.vexels.com/media/users/3/202270/isolated/preview/272fa397d8b6706f8dde05db9b5a561d-huella-de-perro-rojo-splash-plana.png" width="250"/>
 </div>
 
-## Descripción
+# Descripción
 <p>
   Este proyecto es una plataforma en línea diseñada para facilitar la adopción de mascotas rescatadas.
 </p>
@@ -127,3 +127,7 @@
 3. Ejecuta el Docker Compose:
    ```sh
    docker-compose up --build
+
+<div align="center">
+  <img src="https://cdn.prod.website-files.com/65773955177041dbf059ed20/6584760759a54bef40894700_Logo%20navbar.svg" width="500"/>
+</div>
