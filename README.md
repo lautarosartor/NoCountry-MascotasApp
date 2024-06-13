@@ -66,19 +66,23 @@
   **Backend:**
   - Desarrollo de la web API utilizando C#.NET y Entity Framework.
   - Autenticación y autorización de usuario con JWT Token.
-  - Conexión a base de datos SQLite, gestión de la BBDD en HeidiSQL.
+  - Conexión a base de datos SQLite, y gestión de la BBDD en HeidiSQL.
   - Testeo de la API en Swagger UI.
   
   **Frontend:**
   - Desarrollo de la interfaz e interactividad de usuario en React.js.
-  - Conexión con el backend y consumo de la API.
-  - Consumo de API de localidades de Argentina.
+  - Conexión con el backend y consumo de endpoints de la API.
+  - Consumo de la API de Argentina para la obtención de localidades.
   - Manejo de estado reactivo del usuario y rutas restringidas.
+
+  **Docker**
+  - Creación de los Dockerfiles adecuados para generar las imagenes de contenedor tanto para el frontend como para el backend.
+  - Utilización de docker-compose para definir y ejecutar ambos contenedores como un servicio. Esto facilitó la configuración y ejecución del frontend y backend de manera simultanea.
 
 </br>
 <hr>
 
-## Instalación y Configuración
+## Instalación y Configuración (sin Docker)
 
 1. Clona el repositorio:
    ```sh
@@ -109,4 +113,17 @@
    ```sh
    npm start
 
+<hr>
 
+## Instalación con Docker
+1. Clona el repositorio:
+   ```sh
+   git clone https://github.com/lautarosartor/NoCountry-MascotasApp.git
+
+2. Navega al directorio del proyecto:
+   ```sh
+   cd NoCountry-MascotasApp/
+
+3. Ejecuta el Docker Compose:
+   ```sh
+   docker-compose up --build
