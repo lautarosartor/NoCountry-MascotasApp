@@ -1,5 +1,7 @@
 # NO COUNTRY
-# Proyecto: Plataforma de Adopción de Mascotas - *ANIMAL HEAVEN*
+# Proyecto: Plataforma de Adopción de Mascotas
+# Titulo: *ANIMAL HEAVEN*
+## Integrante: Sartor Lautaro
 
 ## Descripción
 <p>
