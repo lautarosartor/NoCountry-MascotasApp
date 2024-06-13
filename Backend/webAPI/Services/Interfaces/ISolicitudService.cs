@@ -1,13 +1,10 @@
 ﻿using webAPI.DTOs;
-using webAPI.Models;
 
 namespace webAPI.Services.Interfaces
 {
     public interface ISolicitudService
     {
-        Task<IEnumerable<GetSolicitudDTO>> LeerTodoAsync();
-
-        Task<IEnumerable<GetSolicitudDTO>> SolicitudesUsuarioAsync(string email);
+        Task<IEnumerable<GetSolicitudDTO>> Get(int? idMascota, string? estado, string? email = null);
 
         Task<GetSolicitudDTO> LeerUnoAsync(int idSolicitud);
 

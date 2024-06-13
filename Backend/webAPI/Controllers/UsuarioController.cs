@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using webAPI.DTOs;
-using webAPI.Models;
-using webAPI.Services;
 using webAPI.Services.Interfaces;
 
 namespace webAPI.Controllers
@@ -30,12 +28,12 @@ namespace webAPI.Controllers
             }
         }
 
-        [HttpGet("{idUsuario}")]
-        public async Task<ActionResult<UsuarioDTO>> LeerUno(int idUsuario)
+        [HttpGet("{email}")]
+        public async Task<ActionResult<UsuarioDTO>> LeerUno(string email)
         {
             try
             {
-                var usuario = await usuarioService.LeerUnoAsync(idUsuario);
+                var usuario = await usuarioService.LeerUnoAsync(email);
 
                 return Ok(usuario);
             }

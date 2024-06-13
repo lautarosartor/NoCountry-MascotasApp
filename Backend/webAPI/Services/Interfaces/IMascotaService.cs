@@ -5,9 +5,7 @@ namespace webAPI.Services.Interfaces
     // Esta define los métodos relacionados con la gestión de mascotas en la lógica de negocio.
     public interface IMascotaService
     {
-        Task<IEnumerable<GetMascotaDTO>> LeerTodoAsync();
-
-        Task<IEnumerable<GetMascotaDTO>> PublicacionesMascota(string email);
+        Task<IEnumerable<GetMascotaDTO>> Get(string? email = null);
 
         Task<GetMascotaDTO> LeerUnoAsync(int idMascota);
 

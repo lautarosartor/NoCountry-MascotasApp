@@ -7,14 +7,9 @@ namespace webAPI.Services
 {
     public class SolicitudService(ISolicitudRepository solicitudRepository) : ISolicitudService
     {
-        public async Task<IEnumerable<GetSolicitudDTO>> LeerTodoAsync()
+        public async Task<IEnumerable<GetSolicitudDTO>> Get(int? idMascota, string? estado, string? email = null)
         {
-            return await solicitudRepository.LeerTodoAsync();
-        }
-
-        public async Task<IEnumerable<GetSolicitudDTO>> SolicitudesUsuarioAsync(string email)
-        {
-            return await solicitudRepository.SolicitudesUsuarioAsync(email);
+            return await solicitudRepository.Get(idMascota, estado, email);
         }
 
         public async Task<GetSolicitudDTO> LeerUnoAsync(int idSolicitud)

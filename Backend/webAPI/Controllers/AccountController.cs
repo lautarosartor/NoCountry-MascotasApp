@@ -35,18 +35,29 @@ namespace webAPI.Controllers
                     throw new Exception("¡Rol no encontrado!");
                 }
 
-                var provincia = context.Provincias.FirstOrDefault(p => p.Id == registroDTO.IdProvincia);
+                //var provincia = context.Provincias.FirstOrDefault(p => p.Id == registroDTO.IdProvincia);
+                var provincia = context.Provincias.FirstOrDefault(p => p.Nombre == registroDTO.NombreProvincia);
 
                 if (provincia is null)
                 {
                     throw new Exception("¡Provincia no encontrada!");
                 }
 
-                var localidad = context.Localidades.FirstOrDefault(l => l.Id == registroDTO.IdLocalidad);
+                //var localidad = context.Localidades.FirstOrDefault(l => l.Id == registroDTO.IdLocalidad);
+                var localidad = context.Localidades.FirstOrDefault(l => l.Nombre == registroDTO.NombreLocalidad && l.IdProvincia == provincia.Id);
 
                 if (localidad is null)
                 {
-                    throw new Exception("¡Localidad no encontrada!");
+                    localidad = new Localidad
+                    {
+                        Nombre = registroDTO.NombreLocalidad,
+                        // Asignar la FK a provincia correspondiente
+                        IdProvincia = provincia.Id,
+                    };
+
+                    // Agregar y guardamos la nueva localidad en la BD
+                    context.Localidades.Add(localidad);
+                    context.SaveChanges();
                 }
 
                 // Creamos el Hash y la Sal de la contraseña
@@ -61,8 +72,8 @@ namespace webAPI.Controllers
                     PasswordHash = passwordHash,
                     PasswordSalt = passwordSalt,
                     IdRol = registroDTO.IdRol,
-                    IdProvincia = registroDTO.IdProvincia,
-                    IdLocalidad = registroDTO.IdLocalidad
+                    IdProvincia = provincia.Id,
+                    IdLocalidad = localidad.Id
                 };
 
                 context.Usuarios.Add(usuario);
@@ -122,18 +133,43 @@ namespace webAPI.Controllers
             }
         }
 
-        [HttpPut("update/{idUsuario}")]
-        public ActionResult ActualizarAsync(int idUsuario, ModificarUsuarioDTO usuarioDTO)
+        [HttpPut("{email}")]
+        public ActionResult ActualizarAsync(string email, ModificarUsuarioDTO usuarioDTO)
         {
             try
             {
                 var usuario = context.Usuarios
-                .Where(u => !u.Borrado && u.Id == idUsuario)
+                .Where(u => !u.Borrado && u.Email == email)
                 .FirstOrDefault();
 
                 if (usuario is null)
                 {
                     throw new Exception("¡Usuario no encontrado!");
+                }
+
+                //var provincia = context.Provincias.FirstOrDefault(p => p.Id == registroDTO.IdProvincia);
+                var provincia = context.Provincias.FirstOrDefault(p => p.Nombre == usuarioDTO.NombreProvincia);
+
+                if (provincia is null)
+                {
+                    throw new Exception("¡Provincia no encontrada!");
+                }
+
+                //var localidad = context.Localidades.FirstOrDefault(l => l.Id == registroDTO.IdLocalidad);
+                var localidad = context.Localidades.FirstOrDefault(l => l.Nombre == usuarioDTO.NombreLocalidad && l.IdProvincia == provincia.Id);
+
+                if (localidad is null)
+                {
+                    localidad = new Localidad
+                    {
+                        Nombre = usuarioDTO.NombreLocalidad,
+                        // Asignar la FK a provincia correspondiente
+                        IdProvincia = provincia.Id,
+                    };
+
+                    // Agregar y guardamos la nueva localidad en la BD
+                    context.Localidades.Add(localidad);
+                    context.SaveChanges();
                 }
 
                 // Hash de password
@@ -144,10 +180,10 @@ namespace webAPI.Controllers
                 usuario.Apellido = usuarioDTO.Apellido;
                 usuario.Direccion = usuarioDTO.Direccion;
                 usuario.Descripcion = usuarioDTO.Descripcion;
-                usuario.IdProvincia = usuarioDTO.IdProvincia;
-                usuario.IdLocalidad = usuarioDTO.IdLocalidad;
-                usuario.PasswordHash = passwordHash;
-                usuario.PasswordSalt = passwordSalt;
+                usuario.IdProvincia = provincia.Id;
+                usuario.IdLocalidad = localidad.Id;
+                //usuario.PasswordHash = passwordHash;
+                //usuario.PasswordSalt = passwordSalt;
 
                 // Aplicamos los cambios
                 context.SaveChanges();

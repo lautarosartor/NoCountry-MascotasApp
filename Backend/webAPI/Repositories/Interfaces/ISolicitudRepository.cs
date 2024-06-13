@@ -4,9 +4,7 @@ namespace webAPI.Repositories.Interfaces
 {
     public interface ISolicitudRepository
     {
-        Task<IEnumerable<GetSolicitudDTO>> LeerTodoAsync();
-
-        Task<IEnumerable<GetSolicitudDTO>> SolicitudesUsuarioAsync(string email);
+        Task<IEnumerable<GetSolicitudDTO>> Get(int? idMascota, string? estado, string? email = null);
 
         Task<GetSolicitudDTO> LeerUnoAsync(int idSolicitud);
 

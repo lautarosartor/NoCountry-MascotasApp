@@ -9,14 +9,34 @@ namespace webAPI.Repositories
     //Inyectamos el DbContext para que el repositorio tenga acceso
     public class MascotaRepository(AppDbContext context) : IMascotaRepository
     {
-        public async Task<IEnumerable<GetMascotaDTO>> LeerTodoAsync()
+        public async Task<IEnumerable<GetMascotaDTO>> Get(string email)
         {
-            var mascotas = await context.Mascotas
-                .Where(m => !m.Borrado)
+            // Iniciar la consulta con las inclusiones necesarias
+            var query = context.Mascotas
                 .Include(m => m.Usuario)
+                .AsQueryable();
+
+            // Si se proporciona un email, agregar un filtro a la consulta
+            if (!string.IsNullOrEmpty(email))
+            {
+                // Verificamos si el usuario existe
+                var usuario = await context.Usuarios.FirstOrDefaultAsync(u => u.Email == email);
+
+                if (usuario is null)
+                {
+                    throw new Exception("*Usuario no encontrado*");
+                }
+                else
+                {
+                    query = query.Where(m => m.Usuario.Email == email);
+                }
+            }
+
+            // Proyectamos los resultados
+            var mascotas = await query
+                .Where(m => !m.Borrado)
                 .Select(m => new GetMascotaDTO
                 {
-                    // Si utilizaramos la extension Mapper, a esto lo hace automaticamente
                     Id = m.Id,
                     Nombre = m.Nombre,
                     Especie = m.Especie,
@@ -28,42 +48,13 @@ namespace webAPI.Repositories
                     Descripcion = m.Descripcion,
                     Estado = m.Estado
                 })
+                .OrderByDescending(m => m.Estado == "Solicitada")
+                .ThenByDescending(m => m.Estado == "Disponible")
                 .ToListAsync();
 
             return mascotas;
         }
-
-        public async Task<IEnumerable<GetMascotaDTO>> PublicacionesMascota(string email)
-        {
-            var mascotas = await context.Mascotas
-                .Where(m => !m.Borrado && m.Usuario.Email == email)
-                .Include(m => m.Usuario)
-                .Select(m => new GetMascotaDTO
-                {
-                    // Si utilizaramos la extension Mapper, a esto lo hace automaticamente
-                    Id = m.Id,
-                    Nombre = m.Nombre,
-                    Especie = m.Especie,
-                    //NombreUsuario = m.Usuario.Nombre + " " + m.Usuario.Apellido + " - " + m.Usuario.Email,
-                    Meses = m.Meses,
-                    Años = m.Años,
-                    //Raza = m.Raza,
-                    //UrlImagen = m.UrlImagen,
-                    //Descripcion = m.Descripcion,
-                    Estado = m.Estado
-                })
-                .ToListAsync();
-
-                var usuario = context.Usuarios.FirstOrDefault(u => u.Email == email);
-
-                if (usuario is null)
-                {
-                    throw new Exception("*Usuario no encontrado*");
-                }
-
-            return mascotas;
-        }
-
+        
         public async Task<GetMascotaDTO> LeerUnoAsync(int idMascota)
         {
             var mascota = await context.Mascotas
@@ -97,7 +88,7 @@ namespace webAPI.Repositories
             var usuario = context.Usuarios
                 .Where(u => !u.Borrado)
                 .Include(u => u.Rol)
-                .FirstOrDefault(u => u.Id == mascotaDTO.IdUsuario);
+                .FirstOrDefault(u => u.Email == mascotaDTO.EmailUsuario);
 
             if (usuario is null)
             {
@@ -118,6 +109,7 @@ namespace webAPI.Repositories
                 Años = mascotaDTO.Años,
                 Especie = mascotaDTO.Especie,
                 Raza = mascotaDTO.Raza,
+                UrlImagen = mascotaDTO.UrlImagen,
                 IdUsuario = usuario.Id,
                 Descripcion = mascotaDTO.Descripcion
             };

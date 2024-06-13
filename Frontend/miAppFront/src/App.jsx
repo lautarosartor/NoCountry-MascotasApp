@@ -8,6 +8,7 @@ import LoginComponent from './pages/auth/Login';
 import RefugioComponent from './pages/dashboard/RefugioDashboard';
 import ClienteComponent from './pages/dashboard/ClienteDashboard';
 import { useAuth } from './context/AuthContext';
+import { ProfileComponent } from './pages/auth/Profile';
 
 function App() {
   const {authStatus, currentUser} = useAuth();
@@ -23,14 +24,15 @@ function App() {
           <Route index element={<HomeComponent/>} />
           <Route path="/login" element={authStatus === "noAuthenticated" ? <LoginComponent/> : <Navigate to="/" />} />
           <Route path="/register" element={authStatus === "noAuthenticated" ? <RegisterComponent/> : <Navigate to="/" />} />
+          <Route path="/setting" element={authStatus === "authenticated" ? <ProfileComponent email={currentUser.email}/> : <Navigate to="/login" />} />
           <Route path="/dashboard"
             element={
               authStatus === "authenticated" ?
               (
                 currentUser.role === "Refugio" ? ( <RefugioComponent /> ) :
                 currentUser.role === "Cliente" ? ( <ClienteComponent /> ) :
-                ( <Navigate to="/" /> )
-              ) : ( <Navigate to="/" /> )
+                ( <Navigate to="/login" /> )
+              ) : ( <Navigate to="/login" /> )
             }/>
         </Routes>
       </main>

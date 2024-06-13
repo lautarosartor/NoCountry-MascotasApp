@@ -1,10 +1,31 @@
 import { Box, Button, Modal, Typography } from "@mui/material";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { BtnAdoptar } from "../../../components/BtnAdoptar";
+import { Get } from "../../../services/http";
 
-const MascotaModal = ({ open, onClose, mascota}) => {
-  
+const MascotaModal = ({ open, onClose, idMascota}) => {
+  const [mascota, setMascota] = useState(null);
+
+  // Consumir endpoint GET (en este caso para obtener UNO)
+  useEffect(() => {
+    if (open && idMascota) {
+      const getMascota = async (idMascota) => {
+        try {
+          const mascota = await Get(`Mascotas/${idMascota}`);
+          
+          setMascota(mascota);
+        }
+        catch (error) {
+          console.error('ERROR: ', error);
+        }
+      }
+      
+      getMascota(idMascota);
+    }
+  }, [open, idMascota]);  //Esto es lo que se tiene que cumplir para que funcione useEffect
+
   if (!mascota) return null;
-
+  
   return (
     <Modal open={open} onClose={onClose}>
       <Box sx={{ 
@@ -24,24 +45,34 @@ const MascotaModal = ({ open, onClose, mascota}) => {
           {mascota.nombre} | {mascota.años} {mascota.años > 1 ? " años" : " año"} + {mascota.meses} {mascota.meses > 1 ? " meses" : "mes"}
         </Typography>
         
-        <img src={mascota.urlImagen} alt={mascota.nombre} style={{ width: '100%', marginBottom: '16px' }} />
+        <img className="img-fluid" src={mascota.urlImagen} alt={mascota.nombre} style={{ width: '100%', maxHeight: '60vh', objectFit: 'cover'}} />
         
-        <Typography variant="body1" mb={2}>
-          {mascota.especie} - {mascota.raza} | Refugio: {mascota.nombreUsuario}
-          <br/>
-          {mascota.descripcion}
-        </Typography>
+        <div className="my-2">
+          <Typography className="fw-bold" variant="body1">
+            {mascota.especie} - {mascota.raza} | Refugio: {mascota.nombreUsuario}
+          </Typography>
+          <Typography variant="body1">
+            {mascota.descripcion}
+          </Typography>
+        </div>
 
-        <p className="text-success fw-bold">{mascota.estado}</p>
+        {mascota.estado === 'Disponible' ? (
+          <p className="text-success fw-bold">{mascota.estado}</p>
+        ):(
+          mascota.estado === 'Solicitada' ? (
+            <p className="text-warning fw-bold">{mascota.estado}</p>
+          ):(
+            <p className="text-danger fw-bold">{mascota.estado}</p>
+          )
+        )}
 
         <div className="d-flex justify-content-between">
           <Button variant="contained" color="primary" onClick={onClose}>
             Cerrar
           </Button>
 
-          <Button variant="contained" color="secondary">
-            <Link className="text-white text-decoration-none" to={`/mascota/${mascota.id}`}>Adoptar</Link>
-          </Button>
+          {/* Boton personalizado */}
+          <BtnAdoptar estado={mascota.estado} id={mascota.id}/>
         </div>
       </Box>
     </Modal>

@@ -1,6 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using webAPI.Database;
 using webAPI.DTOs;
 using webAPI.Services.Interfaces;
 
@@ -11,35 +9,15 @@ namespace webAPI.Controllers
     public class MascotaController(IMascotaService mascotaService) : ControllerBase
     {
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<GetMascotaDTO>>> LeerTodo()
+        public async Task<ActionResult<IEnumerable<GetMascotaDTO>>> Get([FromQuery] string? email = null)
         {
             try
             {
-                var mascotas = await mascotaService.LeerTodoAsync();
+                var mascotas = await mascotaService.Get(email);
 
                 if (!mascotas.Any())
                 {
                     throw new Exception("¡Aún no hay registros!");
-                }
-
-                return Ok(mascotas);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest($"Ocurrió un error al procesar la solicitud: {ex.Message}");
-            }
-        }
-
-        [HttpGet("refugio/{email}")]
-        public async Task<ActionResult<IEnumerable<GetMascotaDTO>>> PublicacionesMascota(string email)
-        {
-            try
-            {
-                var mascotas = await mascotaService.PublicacionesMascota(email);
-
-                if (!mascotas.Any())
-                {
-                    throw new Exception("¡Aún no realizó publicaciones!");
                 }
 
                 return Ok(mascotas);

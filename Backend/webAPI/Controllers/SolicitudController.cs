@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using webAPI.DTOs;
-using webAPI.Models;
 using webAPI.Services.Interfaces;
 
 namespace webAPI.Controllers
@@ -10,31 +9,11 @@ namespace webAPI.Controllers
     public class SolicitudController(ISolicitudService solicitudService) : ControllerBase
     {
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<GetSolicitudDTO>>> LeerTodo()
+        public async Task<ActionResult<IEnumerable<GetSolicitudDTO>>> Get([FromQuery] int? idMascota, string? estado, string? email = null)
         {
             try
             {
-                var solicitudes = await solicitudService.LeerTodoAsync();
-
-                if (!solicitudes.Any())
-                {
-                    throw new Exception("¡Aún no hay solicitudes!");
-                }
-
-                return Ok(solicitudes);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest($"Ocurrió un error al procesar la solicitud: {ex.Message}");
-            }
-        }
-
-        [HttpGet("usuario/{email}")]
-        public async Task<ActionResult<IEnumerable<GetSolicitudDTO>>> SolicitudesUsuario(string email)
-        {
-            try
-            {
-                var solicitudes = await solicitudService.SolicitudesUsuarioAsync(email);
+                var solicitudes = await solicitudService.Get(idMascota, estado, email);
 
                 if (!solicitudes.Any())
                 {
@@ -79,7 +58,7 @@ namespace webAPI.Controllers
             }
         }
 
-        [HttpDelete("{idSolicitud}")]
+        [HttpPut("{idSolicitud}")]
         public async Task<ActionResult> ActualizarEstado(int idSolicitud, EstadoSolicitudDTO estadoSolicitudDTO)
         {
             try

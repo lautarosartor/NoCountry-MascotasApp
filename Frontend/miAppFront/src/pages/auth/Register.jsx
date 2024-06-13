@@ -1,4 +1,3 @@
-import { Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
@@ -20,41 +19,24 @@ const RegisterComponent = () => {
   });
   const [error, setError] = useState('');
 
-  //const [roles, setRoles] = useState([]);
-  const [provincias, setProvincias] = useState([]); // State for provinces data
-  const [localidades, setLocalidades] = useState([]); // State for localities data
+  const [provincias, setProvincias] = useState([]);
+  const [localidades, setLocalidades] = useState([]);
 
-  // Fetch roles, provinces, localidades on component mount (or when needed)
   useEffect(() => {
-    /* const getProvincias = async () => {
-      const provincias = await Get('Provincias'); // Replace with your API endpoint
-      
-      console.log(provincias);
-      setProvincias(provincias);
-    }; */
-
     const getProvincias = async () => {
-      const response = await fetch("https://apis.datos.gob.ar/georef/api/provincias?aplanar=true&campos=estandar&exacto=true&formato=json");
-      const data = await response.json();
-      console.log(data.provincias);
-      setProvincias(data.provincias);
-    }
-
-    /* const getLocalidades = async () => {
-      const localidades = await Get('Localidades'); // Replace with your API endpoint
+      const provincias = await Get('Provincias'); // Obtenemos las provincias de nuestra BD
       
-      //console.log(localidades);
-      setLocalidades(localidades);
+      setProvincias(provincias);
     };
- */
+    
     getProvincias();
-    //getLocalidades();
   }, []);
 
-  const getLocalidades = async (idProvincia) => {
-    const response = await fetch(`https://apis.datos.gob.ar/georef/api/localidades?provincia=${idProvincia}&aplanar=true&campos=estandar&max=1000&exacto=true&formato=json`);
+  // Consumimos la API del gobierno para consultar las distintas localidades de la provincia seleccionada
+  const getLocalidades = async (nombreProvincia) => {
+    const response = await fetch(`https://apis.datos.gob.ar/georef/api/localidades?provincia=${nombreProvincia}&aplanar=true&campos=estandar&max=1000&exacto=true&formato=json`);
     const data = await response.json();
-    console.log(data.localidades);
+
     setLocalidades(data.localidades);
   }
 
@@ -65,7 +47,7 @@ const RegisterComponent = () => {
       [name]: value,
     });
 
-    if (name === 'idProvincia') {
+    if (name === 'nombreProvincia') {
       getLocalidades(value);
     }
   };
@@ -74,10 +56,10 @@ const RegisterComponent = () => {
     e.preventDefault();
     setError('');
 
-    /* if (formData.password !== formData.confirmPassword) {
+    if (formData.password !== formData.confirmPassword) {
       setError('Las contraseñas no coinciden');
       return;
-    } */
+    }
 
     try {
       const data = await Post('Account/register', formData);
@@ -95,12 +77,16 @@ const RegisterComponent = () => {
   };
 
   return (
-    <section id="register-section" className="d-flex justify-content-center align-items-center">
+    <section id="register-section" className="d-flex justify-content-center align-items-center position-relative">
       <form className="form d-flex flex-column gap-3 p-3 rounded" onSubmit={handleRegister}>
         <p className="title fw-bold m-0">Registrarse</p>
-        <small className="text-light">
-          Regístrate ahora y obtén acceso completo a nuestra aplicación.
-        </small>
+        <>
+          {error ? (
+            <small className="text-center text-danger fw-bold">{error}</small>
+          ) : (
+            <small className="text-light">Regístrate ahora y obtén acceso completo a nuestra aplicación.</small>
+          )}
+        </>
 
         <select className="rounded border border-primary p-2" name="idRol" onChange={handleChange}>
           <option defaultChecked hidden>Seleccionar Rol</option>
@@ -131,30 +117,17 @@ const RegisterComponent = () => {
           <span>Contraseña</span>
         </label>
         
-        {/* <label htmlFor="confirmPassword">
-          <input required type="password" className="input" name="confirmPassword" onChange={handleChange}/>
+        <label htmlFor="confirmPassword">
+          <input id="confirmPassword" required type="password" className="input" name="confirmPassword" onChange={handleChange} autoComplete="off"/>
           <span>Confirmar contraseña</span>
-        </label> */}
+        </label>
           
         <label htmlFor="provincia">
-          <select id="provincia" placeholder="Seleccionar provincia" required className="input" name="idProvincia" onChange={handleChange}>
+          <select id="provincia" placeholder="Seleccionar provincia" required className="input" name="nombreProvincia" onChange={handleChange}>
             <option defaultChecked hidden></option>
-            {/* {
-              provincias && provincias.length > 0 ? (
-                provincias.map(provincia => (
-                  <option key={provincia.id} value={provincia.id}>
-                    {provincia.nombre}
-                  </option>
-                ))
-              ) : (
-                <option className="text-warning">
-                  Error al cargar.
-                </option>
-              )
-            } */}
             {
               provincias.map(provincia => (
-                <option key={provincia.id} value={provincia.id}>
+                <option key={provincia.id} value={provincia.nombre}>
                   {provincia.nombre}
                 </option>
               ))
@@ -164,12 +137,12 @@ const RegisterComponent = () => {
         </label>
 
         <label htmlFor="localidad">
-          <select id="localidad" placeholder="Seleccionar localidad" required className="input" name="idLocalidad" onChange={handleChange}>
+          <select id="localidad" placeholder="Seleccionar localidad" required className="input" name="nombreLocalidad" onChange={handleChange}>
             <option defaultChecked hidden></option>
             {
               localidades && localidades.length > 0 ? (
                 localidades.map(localidad => (
-                  <option key={localidad.id} value={localidad.id}>
+                  <option key={localidad.id} value={localidad.nombre}>
                     {localidad.nombre}
                   </option>
                 ))
@@ -182,12 +155,6 @@ const RegisterComponent = () => {
           </select>
           <span>Localidad</span>
         </label>
-        
-        {error &&
-          <Typography color="error" className="alert alert-danger fw-bold position-absolute top-0 mt-5">
-            {error}
-          </Typography>
-        }
         
         <div className="mt-3 d-flex justify-content-between">
           <button className="btn btn-primary" type="submit">

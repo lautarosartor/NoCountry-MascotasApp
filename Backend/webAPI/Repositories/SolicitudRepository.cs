@@ -8,45 +8,65 @@ namespace webAPI.Repositories
 {
     public class SolicitudRepository(AppDbContext context) : ISolicitudRepository
     {
-        public async Task<IEnumerable<GetSolicitudDTO>> LeerTodoAsync()
+        // Podemos hacer una query sobre la url -> api/Solicitud/example@gmail.com (obtenemos las solicitudes realizadas por ese usuario)
+        // Si no ponemos nada devuelve todas las solicitudes que hayan en la base de datos
+        public async Task<IEnumerable<GetSolicitudDTO>> Get(int? idMascota, string? estado, string email = null)
         {
-            var solicitudes = await context.Solicitudes
+            // Iniciar la consulta con las inclusiones necesarias
+            var query = context.Solicitudes
                 .Include(s => s.Usuario)
                 .Include(s => s.Mascota)
+                .AsQueryable();
+
+            // Si se proporciona un email, agregar un filtro a la consulta
+            if (!string.IsNullOrEmpty(email))
+            {
+                // Verificamos si el usuario existe
+                var usuario = await context.Usuarios.FirstOrDefaultAsync(u => u.Email == email);
+
+                if (usuario is null)
+                {
+                    throw new Exception("*Usuario no encontrado*");
+                }
+                else
+                {
+                    query = query.Where(s => s.Usuario.Email == email);
+                }
+            }
+
+            if (idMascota != null)
+            {
+                var mascota = await context.Mascotas.FirstOrDefaultAsync(u => u.Id == idMascota);
+
+                if (mascota is null)
+                {
+                    throw new Exception("*Publicación no encontrado*");
+                }
+                else
+                {
+                    query = query.Where(s => s.Mascota.Id == idMascota);
+                }
+            }
+
+            if (!string.IsNullOrEmpty(estado))
+            {
+                query = query.Where(s => s.Estado == estado);
+            }
+
+            // Proyectar los resultados en el DTO
+            var solicitudes = await query
                 .Select(s => new GetSolicitudDTO
                 {
                     Id = s.Id,
                     NombreUsuario = s.Usuario.Nombre + " " + s.Usuario.Apellido,
                     NombreMascota = s.Mascota.Nombre,
+                    IdUsuario = s.Usuario.Id,
+                    IdMascota = s.Mascota.Id,
                     Fecha = s.Fecha,
                     Estado = s.Estado
                 })
+                .OrderByDescending(s => s.Estado == "Pendiente")
                 .ToListAsync();
-
-            return solicitudes;
-        }
-
-        public async Task<IEnumerable<GetSolicitudDTO>> SolicitudesUsuarioAsync(string email)
-        {
-            var solicitudes = await context.Solicitudes
-                .Where(u => u.Usuario.Email == email)
-                .Include(s => s.Usuario)
-                .Include(s => s.Mascota)
-                .Select(s => new GetSolicitudDTO
-                {
-                    Id = s.Id,
-                    NombreMascota = s.Mascota.Nombre,
-                    Fecha = s.Fecha,
-                    Estado = s.Estado
-                })
-                .ToListAsync();
-            
-            var usuario = context.Usuarios.FirstOrDefault(u => u.Email == email);
-
-            if (usuario is null)
-            {
-                throw new Exception("*Usuario no encontrado*");
-            }
 
             return solicitudes;
         }
@@ -79,7 +99,7 @@ namespace webAPI.Repositories
             var usuario = context.Usuarios
                 .Where(u => !u.Borrado)
                 .Include(u => u.Rol)
-                .FirstOrDefault(u => u.Id == solicitudDTO.IdUsuario);
+                .FirstOrDefault(u => u.Email == solicitudDTO.EmailUsuario);
 
             if (usuario is null)
             {

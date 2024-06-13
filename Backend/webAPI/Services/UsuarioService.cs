@@ -11,9 +11,9 @@ namespace webAPI.Services
             return await usuarioRepository.LeerTodoAsync();
         }
 
-        public async Task<UsuarioDTO> LeerUnoAsync(int idUsuario)
+        public async Task<UsuarioDTO> LeerUnoAsync(string email)
         {
-            return await usuarioRepository.LeerUnoAsync(idUsuario);
+            return await usuarioRepository.LeerUnoAsync(email);
         }
 
         public async Task EliminarAsync(int idUsuario)

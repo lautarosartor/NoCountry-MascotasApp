@@ -69,8 +69,12 @@ const Header = () => {const [anchorEl, setAnchorEl] = useState(null);
               }}
               open={Boolean(anchorEl)}
               onClose={handleClose}>
-              <MenuItem onClick={handleClose} disabled>{currentUser.name}</MenuItem>
-              <MenuItem onClick={handleClose}>Configuración</MenuItem>
+              <MenuItem disabled className="fw-bold">{currentUser.name}</MenuItem>
+              <MenuItem>
+                <Link className="text-dark text-decoration-none" to="/setting">
+                  Configuración
+                </Link>
+              </MenuItem>
               <MenuItem onClick={handleLogout}>Cerrar Sesión</MenuItem>
             </Menu>
           </div>

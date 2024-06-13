@@ -29,10 +29,10 @@ namespace webAPI.Repositories
             return usuarios;
         }
 
-        public async Task<UsuarioDTO> LeerUnoAsync(int idUsuario)
+        public async Task<UsuarioDTO> LeerUnoAsync(string email)
         {
             var usuario = await context.Usuarios
-                .Where(u => !u.Borrado && u.Id == idUsuario)
+                .Where(u => !u.Borrado && u.Email == email)
                 .Include(u => u.Rol)
                 .Include(u => u.Provincia)
                 .Include(u => u.Localidad)

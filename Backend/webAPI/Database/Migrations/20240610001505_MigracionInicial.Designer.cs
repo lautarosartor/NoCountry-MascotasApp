@@ -11,7 +11,7 @@ using webAPI.Database;
 namespace webAPI.Database.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240603135309_MigracionInicial")]
+    [Migration("20240610001505_MigracionInicial")]
     partial class MigracionInicial
     {
         /// <inheritdoc />
@@ -26,6 +26,9 @@ namespace webAPI.Database.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<int>("IdProvincia")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("Nombre")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -33,18 +36,22 @@ namespace webAPI.Database.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("IdProvincia");
+
                     b.ToTable("Localidad");
 
                     b.HasData(
                         new
                         {
                             Id = 1,
+                            IdProvincia = 21,
                             Nombre = "Avellaneda"
                         },
                         new
                         {
                             Id = 2,
-                            Nombre = "Río Cuarto"
+                            IdProvincia = 21,
+                            Nombre = "Reconquista"
                         });
                 });
 
@@ -185,22 +192,22 @@ namespace webAPI.Database.Migrations
                         new
                         {
                             Id = 2,
-                            Nombre = "Ciudad Autónoma de Buenos Aires"
-                        },
-                        new
-                        {
-                            Id = 3,
                             Nombre = "Catamarca"
                         },
                         new
                         {
-                            Id = 4,
+                            Id = 3,
                             Nombre = "Chaco"
                         },
                         new
                         {
-                            Id = 5,
+                            Id = 4,
                             Nombre = "Chubut"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Nombre = "Ciudad Autónoma de Buenos Aires"
                         },
                         new
                         {
@@ -290,7 +297,12 @@ namespace webAPI.Database.Migrations
                         new
                         {
                             Id = 23,
-                            Nombre = "Tierra del Fuego"
+                            Nombre = "Tierra del Fuego, Antártida e Islas del Atlántico Sur"
+                        },
+                        new
+                        {
+                            Id = 24,
+                            Nombre = "Tucumán"
                         });
                 });
 
@@ -429,9 +441,20 @@ namespace webAPI.Database.Migrations
                             IdProvincia = 21,
                             IdRol = 2,
                             Nombre = "Refugio",
-                            PasswordHash = new byte[] { 200, 65, 251, 184, 55, 177, 67, 156, 203, 72, 252, 152, 132, 121, 104, 85, 230, 164, 16, 65, 58, 53, 45, 40, 161, 225, 152, 26, 109, 98, 171, 25, 51, 143, 231, 79, 179, 49, 15, 61, 233, 147, 0, 46, 150, 41, 101, 132, 85, 20, 205, 196, 168, 71, 182, 24, 20, 203, 252, 50, 185, 13, 220, 163 },
-                            PasswordSalt = new byte[] { 254, 226, 158, 134, 41, 147, 94, 240, 233, 37, 180, 139, 62, 203, 37, 59, 72, 137, 203, 215, 208, 87, 125, 205, 101, 208, 224, 234, 201, 198, 104, 184, 229, 235, 85, 171, 44, 92, 182, 219, 140, 144, 177, 48, 102, 109, 143, 93, 54, 42, 50, 58, 158, 19, 116, 32, 94, 12, 189, 53, 230, 57, 149, 142, 55, 110, 182, 144, 191, 78, 72, 13, 198, 45, 19, 21, 169, 162, 222, 185, 106, 83, 193, 50, 67, 135, 187, 5, 224, 102, 99, 14, 172, 72, 6, 216, 32, 10, 53, 21, 7, 140, 229, 70, 75, 31, 18, 219, 72, 93, 200, 13, 98, 18, 161, 3, 55, 11, 8, 238, 68, 237, 28, 146, 113, 30, 137, 156 }
+                            PasswordHash = new byte[] { 27, 148, 193, 181, 10, 96, 126, 125, 135, 205, 255, 15, 16, 231, 128, 172, 23, 205, 208, 219, 135, 189, 51, 167, 70, 226, 219, 82, 191, 97, 10, 243, 248, 110, 221, 100, 30, 6, 64, 8, 77, 1, 17, 234, 228, 243, 147, 231, 177, 206, 152, 72, 126, 133, 224, 26, 91, 23, 234, 161, 217, 39, 73, 26 },
+                            PasswordSalt = new byte[] { 103, 71, 199, 174, 182, 25, 63, 196, 158, 37, 83, 212, 116, 131, 88, 29, 208, 217, 196, 81, 202, 95, 107, 202, 111, 148, 243, 241, 143, 157, 173, 37, 233, 234, 6, 24, 248, 32, 226, 198, 225, 206, 60, 145, 116, 72, 90, 134, 198, 12, 2, 143, 83, 156, 124, 219, 1, 104, 202, 59, 107, 108, 251, 74, 184, 71, 47, 176, 94, 108, 88, 170, 1, 51, 129, 131, 12, 156, 164, 22, 0, 132, 230, 33, 161, 223, 189, 196, 203, 204, 7, 217, 65, 159, 248, 9, 29, 246, 189, 122, 113, 209, 51, 50, 148, 242, 119, 161, 69, 29, 144, 35, 207, 41, 13, 127, 55, 100, 239, 64, 169, 247, 138, 139, 127, 159, 33, 61 }
                         });
+                });
+
+            modelBuilder.Entity("webAPI.Models.Localidad", b =>
+                {
+                    b.HasOne("webAPI.Models.Provincia", "Provincia")
+                        .WithMany()
+                        .HasForeignKey("IdProvincia")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Provincia");
                 });
 
             modelBuilder.Entity("webAPI.Models.Mascota", b =>

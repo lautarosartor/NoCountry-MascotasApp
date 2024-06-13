@@ -6,9 +6,7 @@ namespace webAPI.Repositories.Interfaces
     // Es decir, qué acciones tendra mi repository (en la mayoria de los casos minimamente seria el CRUD)
     public interface IMascotaRepository
     {
-        Task<IEnumerable<GetMascotaDTO>> LeerTodoAsync();
-
-        Task<IEnumerable<GetMascotaDTO>> PublicacionesMascota(string email);
+        Task<IEnumerable<GetMascotaDTO>> Get(string? email = null);
 
         Task<GetMascotaDTO> LeerUnoAsync(int idMascota);
 

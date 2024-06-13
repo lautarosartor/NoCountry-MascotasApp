@@ -12,5 +12,11 @@ namespace webAPI.Models
         [Required]
         [StringLength(50)]
         public string Nombre { get; set; } = string.Empty;
+
+        [Required]
+        [ForeignKey("Provincia")]
+        public int IdProvincia { get; set; }
+
+        public virtual Provincia Provincia { get; set; } = null!;
     }
 }

@@ -32,10 +32,10 @@ namespace webAPI.Database
 
             mb.Entity<Provincia>().HasData(
                 new Provincia { Id = 1, Nombre = "Buenos Aires" },
-                new Provincia { Id = 2, Nombre = "Ciudad Autónoma de Buenos Aires" },
-                new Provincia { Id = 3, Nombre = "Catamarca" },
-                new Provincia { Id = 4, Nombre = "Chaco" },
-                new Provincia { Id = 5, Nombre = "Chubut" },
+                new Provincia { Id = 2, Nombre = "Catamarca" },
+                new Provincia { Id = 3, Nombre = "Chaco" },
+                new Provincia { Id = 4, Nombre = "Chubut" },
+                new Provincia { Id = 5, Nombre = "Ciudad Autónoma de Buenos Aires" },
                 new Provincia { Id = 6, Nombre = "Córdoba" },
                 new Provincia { Id = 7, Nombre = "Corrientes" },
                 new Provincia { Id = 8, Nombre = "Entre Ríos" },
@@ -53,12 +53,13 @@ namespace webAPI.Database
                 new Provincia { Id = 20, Nombre = "Santa Cruz" },
                 new Provincia { Id = 21, Nombre = "Santa Fe" },
                 new Provincia { Id = 22, Nombre = "Santiago del Estero" },
-                new Provincia { Id = 23, Nombre = "Tierra del Fuego" }
+                new Provincia { Id = 23, Nombre = "Tierra del Fuego, Antártida e Islas del Atlántico Sur" },
+                new Provincia { Id = 24, Nombre = "Tucumán" }
             );
 
             mb.Entity<Localidad>().HasData(
-                new Localidad { Id = 1, Nombre = "Avellaneda" },
-                new Localidad { Id = 2, Nombre = "Río Cuarto" }
+                new Localidad { Id = 1, Nombre = "Avellaneda", IdProvincia = 21 },
+                new Localidad { Id = 2, Nombre = "Reconquista", IdProvincia = 21 }
             );
 
             mb.Entity<Mascota>().HasData(
@@ -128,6 +129,11 @@ namespace webAPI.Database
                     IdLocalidad = 1
                 }
             );
+        }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.EnableSensitiveDataLogging();
         }
 
         public static void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)

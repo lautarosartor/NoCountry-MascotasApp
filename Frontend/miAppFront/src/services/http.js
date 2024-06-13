@@ -49,3 +49,39 @@ export const Post = async (endpoint, body) => {
         console.error(error);
     }
 }
+
+export const Put = async (endpoint, body) => {
+    try {
+        const response = await fetch(`${url}/${endpoint}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(body)
+        });
+
+        if (!response.ok) {
+            let errorMessage = await response.text();
+            
+            throw new Error(errorMessage);
+        }
+    }
+    catch (error) {
+        console.error(error);
+    }
+}
+
+export const Delete = async (endpoint) => {
+    try {
+        const response = await fetch(`${url}/${endpoint}`, {
+            method: 'DELETE'
+        });
+
+        if (!response.ok) {
+            let errorMessage = await response.text();
+            
+            throw new Error(errorMessage);
+        }
+    }
+    catch (error) {
+        console.error(error)
+    }
+}

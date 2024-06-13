@@ -1,0 +1,41 @@
+version: "3.9"
+# Estos pasos sirven para evitar los comandos de: 'docker build -t academiaback:latest .' y 'docker run -p 5000:5000 academiaback:latest'
+# en cada paso comentado corresponde a una parte del comando de docker que se ejecuta por detrÃ¡s, mejorando la legibilidad para el desarrollador.
+
+services:
+
+  # Nombre del service 'back'
+  back:
+
+    # Nombre de la imagen nueva que se va a generar en este caso es 'academiaback:latest'
+    image: backend:latest
+
+    # Nombre del container que vamos a levantar en este caso es 'academiaback'
+    container_name: backend
+
+    # En esta parte vamos a tratar de ubicar el archivo dockerfile mediante el path desde donde se encuentre el compose.yml, en mi caso esta en el path principal del repo de ejemplo
+    build:
+
+    # Ubicacion del dockerfile 
+      context: ./Backend
+
+    # Nombre del archivo dockerfile, este paso tenerlo en cuenta si es que nuestro dockerfile tiene un nombre distinto como 'Dockerfile-Back'
+      dockerfile: Dockerfile
+
+    # Este paso es para que el container se reinice siempre
+    restart: always
+
+    # Este paso es para decir en que puerto se va a ejecutar el container, la derecha es el puerto de la imagen y la izquierda el puerto de acceso local. ej '6000:5000' puerto de la imagen 5000 y nuestro puerto para probarlo seria localhost:6000
+    ports:
+      - 5000:5000
+  
+  # En este caso se repite lo mismo pero para el service del front
+  front:
+    image: frontend:latest
+    container_name: frontend
+    build:
+      context: ./Frontend
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - 4200:80

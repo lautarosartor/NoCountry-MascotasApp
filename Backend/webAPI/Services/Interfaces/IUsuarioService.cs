@@ -6,7 +6,7 @@ namespace webAPI.Services.Interfaces
     {
         Task<IEnumerable<UsuarioDTO>> LeerTodoAsync();
 
-        Task<UsuarioDTO> LeerUnoAsync(int idUsuario);
+        Task<UsuarioDTO> LeerUnoAsync(string email);
 
         Task EliminarAsync(int idUsuario);
     }

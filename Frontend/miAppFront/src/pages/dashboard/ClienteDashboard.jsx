@@ -1,26 +1,46 @@
-import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
+import { IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Tooltip, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useAuth } from "../../context/AuthContext";
-import { Get } from "../../services/http";
+import { Get, Put } from "../../services/http";
+import CancelIcon from '@mui/icons-material/Cancel';
 
 const ClienteComponent = () => {
   const { currentUser } = useAuth();
   const [solicitudes, setSolicitudes] = useState([]);
 
-  useEffect(() => {
-    const getSolicitudes = async () => {
-      try {
-        const solicitudes = await Get(`Solicitud/usuario/${currentUser.email}`);
-        console.log(solicitudes);
-        setSolicitudes(solicitudes);
-      }
-      catch (error) {
-        console.log('ERROR: ', error);
+  const handleCancelar = async (id) => {
+    try {
+      const confirmacion = window.confirm("¿Estás seguro que deseas cancelar esta solicitud?");
+
+      if (confirmacion) {
+        await Put(`Solicitud/${id}`, {'estado': 'Cancelada'})
+          .then(() => getSolicitudes());
       }
     }
+    catch (error) {
+      console.log('ERROR: ', error);
+    }
+  }
 
+  const getSolicitudes = async () => {
+    try {
+      const solicitudes = await Get(`Solicitud?email=${currentUser.email}`);
+
+      setSolicitudes(solicitudes);
+    }
+    catch (error) {
+      console.log('ERROR: ', error);
+    }
+  }
+
+  useEffect(() => {
     getSolicitudes();
   }, []);
+
+  const formatearFecha = (fecha) => {
+    fecha = new Date(fecha).toLocaleString('es-AR');
+    return fecha;
+  }
 
   return (
     <section className="container">
@@ -35,20 +55,38 @@ const ClienteComponent = () => {
               <TableCell>Mascota</TableCell>
               <TableCell>Fecha de solicitud</TableCell>
               <TableCell>Estado de solicitud</TableCell>
-              <TableCell>Acciones</TableCell>
+              <TableCell align="center">Acciones</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {solicitudes && solicitudes.length > 0 ? (
               solicitudes.map((s) => (
                 <TableRow key={s.id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                  <TableCell component="th" scope="row">{s.nombreMascota}</TableCell>
-                  <TableCell>{s.fecha}</TableCell>
-                  <TableCell>{s.estado}</TableCell>
+                  <TableCell component="th" scope="row">
+                    {s.nombreMascota}
+                  </TableCell>
+                  
+                  <TableCell>
+                    {formatearFecha(s.fecha)}
+                  </TableCell>
+
+                  <TableCell  className={`${s.estado === 'Aprobada' ? 'text-success' : (s.estado === 'Pendiente' ? 'text-warning' : 
+                      (s.estado === 'Rechazada' ? 'text-danger' : 'text-secondary'))} fw-bold`}>
+                    {s.estado}
+                  </TableCell>
+
                   <TableCell align="center">
-                    <a className="btn btn-primary me-1 p-0">Detalles</a>
-                    |
-                    <a className="btn btn-danger ms-1 p-0">Borrar</a>
+                    <Tooltip title="Cancelar solicitud">
+                        {s.estado === 'Pendiente' ? (
+                          <IconButton onClick={() => handleCancelar(s.id)} className="p-0">
+                            <CancelIcon className="text-danger" style={{height: '2rem', width: '2rem'}}/>
+                          </IconButton>
+                        ) : (
+                          <IconButton className="p-0">
+                            <CancelIcon disabled style={{height: '2rem', width: '2rem'}}/>
+                          </IconButton>
+                        )}
+                    </Tooltip>
                   </TableCell>
                 </TableRow>
               ))

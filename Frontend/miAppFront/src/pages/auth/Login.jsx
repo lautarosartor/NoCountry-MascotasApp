@@ -48,15 +48,11 @@ const LoginComponent = () => {
 
   return (
     <section id="login-section" className="auth-section d-flex justify-content-center align-items-center position-relative">
-      {error &&
-        <Typography color="error" className="alert alert-danger fw-bold position-absolute top-0 mt-5">
-          {error}
-        </Typography>
-      }
-
       <form className="form d-flex flex-column gap-3 p-3 rounded" onSubmit={handleLogin}>
         <p className="title m-0 fw-bold">Inicia Sesión</p>
-
+        {error &&
+          <small className="text-center text-danger fw-bold">{error}</small>
+        }
         <input placeholder="Email" type="email" name="email" value={loginForm.email} className="form-control py-3" onChange={handleInputChange} autoComplete="on"/>
 
         <input placeholder="Contraseña" type="password" name="password" value={loginForm.password} className="form-control py-3" onChange={handleInputChange} autoComplete="off"/>

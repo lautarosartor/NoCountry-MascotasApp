@@ -39,7 +39,7 @@
 
         public string UrlImagen { get; set; } = string.Empty;
 
-        public int IdUsuario { get; set; }  //Este no funcionara en el PUT
+        public string EmailUsuario { get; set; } = string.Empty;  //Este no funcionara en el PUT
 
         public string Descripcion { get; set; } = string.Empty;
     }

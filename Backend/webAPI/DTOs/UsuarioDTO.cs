@@ -40,9 +40,12 @@
 
         public int IdRol { get; set; }
 
-        public int IdProvincia { get; set; }
+        public string NombreProvincia { get; set; } = string.Empty;
 
-        public int IdLocalidad { get; set; }
+        public string NombreLocalidad { get; set; } = string.Empty;
+
+        //public int IdProvincia { get; set; }
+        //public int IdLocalidad { get; set; }
     }
 
     public class ModificarUsuarioDTO
@@ -57,8 +60,11 @@
 
         public string Descripcion { get; set; } = string.Empty;
 
-        public int IdProvincia { get; set; }
+        public string NombreProvincia { get; set; } = string.Empty;
 
-        public int IdLocalidad { get; set; }
+        public string NombreLocalidad { get; set; } = string.Empty;
+
+        //public int IdProvincia { get; set; }
+        //public int IdLocalidad { get; set; }
     }
 }

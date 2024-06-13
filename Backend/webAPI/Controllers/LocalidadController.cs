@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using webAPI.Database;
+using webAPI.DTOs;
 using webAPI.Models;
 
 namespace webAPI.Controllers
@@ -13,7 +15,15 @@ namespace webAPI.Controllers
         {
 			try
 			{
-				var localidades = context.Localidades.ToList();
+                var localidades = context.Localidades
+                    .Include(l => l.Provincia)
+                    .Select(l => new LocalidadDTO
+                    {
+                        Id = l.Id,
+                        Nombre = l.Nombre,
+                        Provincia = l.Provincia.Nombre
+                    })
+                    .ToList();
 
                 if (!localidades.Any())
                 {

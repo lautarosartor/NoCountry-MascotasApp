@@ -8,42 +8,36 @@ import React, { useEffect, useState } from 'react';
 import { Get } from '../../../services/http';
 import { Link } from 'react-router-dom';
 import MascotaModal from './MascotaModal';
+import { BtnAdoptar } from '../../../components/BtnAdoptar';
 
 const MascotasComponent = () => {
   const [mascotas, setMascotas] = useState([]);
 
-  // Consumir endpoint GET (en este caso para obtener TODO)
-  useEffect(() => {
-    const fetchMascotas = async () => {
-      try {
-        const mascotas = await Get('Mascotas');
-        
-        setMascotas(mascotas);
-      }
-      catch (error) {
-        console.error('ERROR: ', error);
-      }
-    };
-
-    fetchMascotas();
-  }, []);
-  
-  // Consumir endpoint GET (en este caso para obtener UNO)
-  const [open, setOpen] = useState(false);
-  const [selectedMascota, setSelectedMascota] = useState(null);
-
-  const handleOpenModal = async (id) => {
+  const fetchMascotas = async () => {
     try {
-      const mascota = await Get(`Mascotas/${id}`)
+      const mascotas = await Get('Mascotas');
       
-      setSelectedMascota(mascota);
-
-      setOpen(true);
+      setMascotas(mascotas);
     }
     catch (error) {
       console.error('ERROR: ', error);
     }
   };
+
+  // Consumir endpoint GET (en este caso para obtener TODO)
+  useEffect(() => {
+    
+    fetchMascotas();
+  }, []); // Al estar vacio el useEffect se ejecutara una vez cuando el componente se monte en el DOM
+  
+  // Seteamos el modal y le pasamos el id de la mascota seleccionada
+  const [open, setOpen] = useState(false);
+  const [selectedMascota, setSelectedMascota] = useState(null);
+
+  const handleOpenModal = (id) => {
+    setSelectedMascota(id);
+    setOpen(true);
+  }
 
   const handleCloseModal = () => {
     setOpen(false);
@@ -56,8 +50,22 @@ const MascotasComponent = () => {
 
       {mascotas && mascotas.length > 0 ? (
         mascotas.map(mascota => (
-          <Card key={mascota.id} sx={{ maxWidth: 300 }} elevation={6}>
-            <CardActionArea onClick={() => handleOpenModal(mascota.id)}>
+          <Card key={mascota.id} sx={{ maxWidth: 300 }} elevation={6}
+              style={mascota.estado !== 'Disponible' ? { opacity: 0.5 } : {}}>
+            <CardActionArea onClick={() => handleOpenModal(mascota.id)} className="position-relative">
+              <div className="position-absolute top-0 end-0 px-2 rounded" style={{backgroundColor: '#a3a3a390'}}>
+              {
+                mascota.estado === 'Disponible' ? (
+                  <p className="text-success fw-bold m-0">{mascota.estado}</p>
+                ):(
+                  mascota.estado === 'Solicitada' ? (
+                    <p className="text-warning fw-bold m-0">{mascota.estado}</p>
+                  ):(
+                    <p className="text-danger fw-bold m-0">{mascota.estado}</p>
+                  )
+                )
+              }
+              </div>
               <CardMedia
                 component="img"
                 height="250"
@@ -79,9 +87,9 @@ const MascotasComponent = () => {
                 <Link className="text-white text-decoration-none">Detalles</Link>
               </Button>
               
-              <Button size="small" variant="contained" color="secondary">
-                <Link className="text-white text-decoration-none" to={`/mascota/${mascota.id}`}>Adoptar</Link>
-              </Button>
+              {/* Boton personalizado */}
+              <BtnAdoptar estado={mascota.estado} id={mascota.id} fetchMascotas={fetchMascotas}/>
+              
             </CardActions>
           </Card>
         ))
@@ -90,7 +98,9 @@ const MascotasComponent = () => {
       )}
 
       {/*MOSTRAR MODAL*/}
-      <MascotaModal open={open} onClose={handleCloseModal} mascota={selectedMascota} />
+      {open &&
+        <MascotaModal open={open} onClose={handleCloseModal} idMascota={selectedMascota} />
+      }
     </section>
   );
 };
