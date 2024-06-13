@@ -1,7 +1,7 @@
-# NO COUNTRY
-# Proyecto: Plataforma de Adopción de Mascotas
-# Titulo: *ANIMAL HEAVEN*
-## Integrante: Sartor Lautaro
+<div align="center">
+  <img src="https://play-lh.googleusercontent.com/vVZZ9-k369c1bQO8QAL3PBvmg0XBKFHwvckV9-jbtNyp6PtmAO_U-T4J67SJHT-gdaA-=w240-h480-rw" width="100"/>
+  <h1>Animal Heaven</h1>
+</div>
 
 ## Descripción
 <p>
@@ -24,35 +24,59 @@
 
 ## Funcionalidades Esenciales
 
-1. **Búsqueda y Solicitud de Adopción:**
-   - Los usuarios pueden buscar mascotas disponibles para adopción y enviar solicitudes de adopción en línea.
+1. **Búsqueda y Solicitud de Adopción por parte de las personas:**
+   - Las personasueden buscar mascotas, ver detalles de las mascotas disponibles y enviar solicitudes de adopción en línea.
 
 2. **Registro y Gestión de Mascotas por parte de los Refugios:**
    - Los refugios pueden registrar nuevas mascotas en la plataforma, actualizar la información de las mascotas existentes y gestionar las solicitudes de adopción.
 
-## Tipos de Usuarios
 
-- **Personas interesadas en adoptar mascotas:**
-  - Pueden buscar mascotas, ver detalles de las mascotas disponibles y enviar solicitudes de adopción.
-
-- **Refugios de animales:**
-  - Pueden registrar y gestionar las mascotas disponibles para adopción.
-
-## Tecnologías Utilizadas
-
-- **Frontend:** </br>
-  <img src="https://skillicons.dev/icons?i=react,bootstrap&perline=5" />
-
-- **Backend:** </br>
+<div align="center">
+  <h2>Tecnologías utilizadas</h2>
+  <h3>Frontend</h3>
+  <img src="https://skillicons.dev/icons?i=js,react,mui,html,css,bootstrap&perline=10" />
+  
+  <h3>Backend</h3>
   <img src="https://skillicons.dev/icons?i=cs,dotnet&perline=5" />
-
-- **Base de Datos:** </br>
+  
+  <h3>Base de datos</h3>
   <img src="https://skillicons.dev/icons?i=sqlite&perline=5" />
-
-- **Herramientas de desarrollo:** </br>
-  <img src="https://upload.wikimedia.org/wikipedia/commons/3/32/HeidiSQL_logo_image.png" width="50" />
-  <img src="https://static-00.iconduck.com/assets.00/swagger-icon-512x512-halz44im.png" width="50" />
+  
+  <h3>Herramientas de desarrollo</h3>
+  <img src="https://upload.wikimedia.org/wikipedia/commons/3/32/HeidiSQL_logo_image.png" width="50" title="HeidiSQL" alt="HeidiSQL"/>
+  <img src="https://static-00.iconduck.com/assets.00/swagger-icon-512x512-halz44im.png" width="50" title="Swagger" alt="Swagger"/>
   <img src="https://skillicons.dev/icons?i=git,github,docker&perline=5" />
+</div>
+
+</br>
+<hr>
+
+<div align="center">
+<h1>AUTOR</h1>
+
+<h3>Full Stack</h3>
+
+|                                                                                                                                            <img src="https://avatars.githubusercontent.com/u/72401480?v=4" width=200>                                                                                                                                             |
+| :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
+|                                                                                                                                                             **Sartor Lautaro**                                                                                                                                                             |
+| <a href="https://github.com/lautarosartor" target='_BLANK'><img src="https://img.shields.io/badge/github-%23121011.svg?&style=for-the-badge&logo=github&logoColor=white"/></a><a href="https://www.linkedin.com/in/lautarosartor/"><img src="https://img.shields.io/badge/linkedin%20-%230077B5.svg?&style=for-the-badge&logo=linkedin&logoColor=white"/></a> |
+
+</div>
+
+  **Backend:**
+  - Desarrollo de la web API utilizando C#.NET y Entity Framework.
+  - Autenticación y autorización de usuario con JWT Token.
+  - Conexión a base de datos SQLite, gestión de la BBDD en HeidiSQL.
+  - Testeo de la API en Swagger UI.
+  
+  **Frontend:**
+  - Desarrollo de la interfaz e interactividad de usuario en React.js.
+  - Conexión con el backend y consumo de la API.
+  - Consumo de API de localidades de Argentina.
+  - Manejo de estado reactivo del usuario y rutas restringidas.
+
+</br>
+<hr>
 
 ## Instalación y Configuración
 
@@ -85,19 +109,4 @@
    ```sh
    npm start
 
-## Autor
-
-* ### Sartor Lautaro *(Full-Stack)*
-  
-  **Backend:**
-  - Desarrollo de la web API utilizando C#.NET y Entity Framework.
-  - Autenticación y autorización de usuario con JWT Token.
-  - Conexión a base de datos SQLite, gestión de la BBDD en HeidiSQL.
-  - Testeo de la API en Swagger UI.
-  
-  **Frontend:**
-  - Desarrollo de la interfaz e interactividad de usuario en React.js.
-  - Conexión con el backend y consumo de la API.
-  - Consumo de API de localidades de Argentina.
-  - Manejo de estado reactivo del usuario y rutas restringidas.
 
